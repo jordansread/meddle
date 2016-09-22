@@ -16,6 +16,7 @@ attribute_skeleton.data.frame <- function(object, attr.file, ...){
   existing.attrs <- read_attr_file(attr.file)
   obj.atts <- names(object)
   # This is a work in progress
+  stop('method not implemented')
 }
 
 #' attribute skeleton for an assumed file or files
@@ -25,10 +26,19 @@ attribute_skeleton.data.frame <- function(object, attr.file, ...){
 #'
 #' @keywords internal
 #' @export
+
 attribute_skeleton.character <- function(object, attr.file, ...){
+  if (missing(attr.file)){
+    attr.file <- as.attr_file(object)
+  }
   # attempt to read in the file based on extension
+  stop('method not implemented')
 }
 
+#' @importFrom tools file_path_sans_ext
+as.attr_file <- function(filename){
+  paste0(tools::file_path_sans_ext(filename[1]), '_metadata.csv')
+}
 #' @keywords internal
 #' @export
 attribute_skeleton.SpatialPointsDataFrame <- function(object, attr.file, ...){
