@@ -5,6 +5,7 @@
 #' @param value the actual value
 #' @param sub.val the value to sub in if \code{value} is empty
 #' @return a modified value according to \code{sub.val}
+#' @keywords internal
 submissing <- function(value, sub.val = 'NA'){
   ifelse(!is.na(value) & value != '',value,sub.val)
 }
