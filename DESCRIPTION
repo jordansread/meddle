@@ -14,7 +14,8 @@ Copyright: This software is in the public domain because it contains materials
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 Imports:
     yaml,
-    whisker
+    whisker,
+    sp
 Suggests:
     testthat,
     knitr
