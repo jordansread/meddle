@@ -1,4 +1,4 @@
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'  viewBox='0 0 700 100'>
+<svg viewBox='0 0 700 100'>
   <path d="M100,0 L0,100 L0,0z" fill="red"/>
   <text x='50' y='50' dy="-0.5em" style='font-size: 8.00pt; font-family: Arial;' fill='white' transform="rotate(-45 50 50)" text-anchor="middle">use at your own risk</text>
   <text x='50' y='50' dy="-1.2em" font-family='Arial' fill='white' transform="rotate(-45 50 50)" text-anchor="middle">Unsupported</text>
