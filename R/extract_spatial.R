@@ -6,6 +6,8 @@
 #' @param sp a spatial object from the \code{sp} package
 #' @return a list with \code{wbbox}, \code{ebbox}, \code{nbbox}, \code{sbbox} fields
 #' @importFrom sp bbox
+#' @keywords internal
+#' @export
 get_bbox <- function(sp){
   if (!grepl(pattern = 'WGS84', proj4string(sp))){
     stop('sp must be in WGS84 to calculate a valid bounding box')
@@ -22,6 +24,8 @@ get_bbox <- function(sp){
 #' @param sp a spatial object from the \code{sp} package
 #' @param return a list with \code{feature-type} field
 #' @details only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
+#' @keywords internal
+#' @export
 get_feature_type <- function(sp){
   feature.type = switch(class(sp),
                         "SpatialPointsDataFrame" = "Point",
@@ -35,6 +39,8 @@ get_feature_type <- function(sp){
 #'
 #' @param sp a spatial object from the \code{sp} package
 #' @param return a list with \code{feature-count} field
+#' @keywords internal
+#' @export
 get_feature_count <- function(sp){
   list('feature-count'=length(sp))
 }

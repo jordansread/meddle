@@ -16,6 +16,8 @@ submissing <- function(value, sub.val = 'NA'){
 #'
 #' @param filename the name of the file for attributes
 #' @return a list of attributes and values for rendering
+#' @keywords internal
+#' @export
 parse_attributes <- function(filename){
   metrics <- read.table(filename, header = TRUE, sep = ',', stringsAsFactors = FALSE)
   out <- list()
