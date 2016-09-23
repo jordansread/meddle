@@ -14,13 +14,30 @@ create_attr_table <- function(attrs){
              stringsAsFactors = FALSE, check.names = FALSE)
 }
 
+#' merge two attribute tables
+#'
+#' merge two attribute tables, assuming that the latter one
+#' has more complete data, but the newer one has all of the applicable fields.
+#' Fields in \code{old.attrs} that don't appear in \code{new.attrs} will be dropped.
+#' Likewise, fields in \code{new.attrs} but not in \code{old.attrs} will retain
+#' the values in \code{new.attrs}.
+#'
+#' @param new.attrs an attribute table (data.frame)
+#' @param old.attrs an attribute table (data.frame)
+#' @return a merged attribute table.
 merge_attr_table <- function(new.attrs, old.attrs){
 
-  if (is.null(old.attrs)){
-    return(new.attrs)
-  } else {
-    stop('need to implement merging code that does the right thing here')
+  # to do: check that these two share the same headers and number of columns
+  if (!is.null(old.attrs)){
+    for (j in 1:nrows(new.attrs)){
+      attr.label <- new.attrs$`attr-label`[j]
+      if (attr.label %in% names(old.attrs)){
+        replc.i <- which(names(old.attrs) == attr.label)[1]
+        new.attrs[j, ] <- old.attrs[replc.i, ]
+      }
+    }
   }
+  return(new.attrs)
 }
 
 #' @export
