@@ -15,7 +15,9 @@ Copyright: This software is in the public domain because it contains materials
 Imports:
     yaml,
     whisker,
-    sp
+    sp,
+    rgdal,
+    foreign
 Suggests:
     testthat,
     knitr
