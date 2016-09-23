@@ -54,28 +54,46 @@ read_attr_file <- function(attr.file){
 #' @param filename the full path for the file(s)
 #' @return the attributes as a character vector
 #' @export
-read_attrs <- function(filename){
+get_attrs <- function(filename){
   class(filename) <- get_filetype(filename)
   UseMethod("read_attrs", object = filename)
 }
 
-read_attrs.csvfile <- function(filename){
+get_attrs.csvfile <- function(filename){
   strsplit(readLines(filename, n = 1L), '[,]')[[1]]
 }
 
-read_attrs.tsvfile <- function(filename){
+get_attrs.tsvfile <- function(filename){
   strsplit(readLines(filename, n = 1L), '[\t]')[[1]]
 }
 
+#' get attributes from a shapefile
+#'
+#' extract the attribute names from a shapefile file collection.
+#'
+#'
+#' @param filename a character vector of shapefile file names
+#' @return a character vector of attribute names for use in metadata rendering
+#'
+#' @details
+#' Vector of shapefile file names (the \code{filename} arguments) must include a *.dbf file.
+#' This function only reads the shapefile's dbf, so it skips reading in the geometry.
 #' @importFrom foreign read.dbf
 #' @export
 #' @keywords internal
-read_attrs.shapefile <- function(filename){
+get_attrs.shapefile <- function(filename){
   dbf.file <- filename[grepl(pattern = '.dbf', x = filename)]
   data <- foreign::read.dbf(dbf.file)
   return(names(data))
 }
 
+#' create name for attributes file if one doesn't exist
+#'
+#' create attribute file name
+#'
+#' @param filename the name of the files that this attribute file will be based on
+#' @return a filepath for an attributes file
+#'
 #' @importFrom tools file_path_sans_ext
 as.attr_file <- function(filename){
   paste0(tools::file_path_sans_ext(filename[1]), '_attributes.csv')

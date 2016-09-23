@@ -35,7 +35,7 @@ attribute_skeleton.character <- function(object, attr.file, ...){
   # attempt to read in the file based on extension
   class(object) <- get_filetype(object)
 
-  attrs <- read_attrs(filename = object)
+  attrs <- get_attrs(filename = object)
   update_attr_table(attrs, attr.file)
 }
 
