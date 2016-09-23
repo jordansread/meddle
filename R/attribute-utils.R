@@ -29,10 +29,11 @@ merge_attr_table <- function(new.attrs, old.attrs){
 
   # to do: check that these two share the same headers and number of columns
   if (!is.null(old.attrs)){
-    for (j in 1:nrows(new.attrs)){
+    old.labels <- old.attrs$`attr-label`
+    for (j in 1:nrow(new.attrs)){
       attr.label <- new.attrs$`attr-label`[j]
-      if (attr.label %in% names(old.attrs)){
-        replc.i <- which(names(old.attrs) == attr.label)[1]
+      if (attr.label %in% old.labels){
+        replc.i <- which(old.labels == attr.label)[1]
         new.attrs[j, ] <- old.attrs[replc.i, ]
       }
     }
@@ -57,7 +58,7 @@ read_attr_file <- function(attr.file){
   # have package default or user setting of delimiter for attr.table?
   if (file.exists(attr.file)){
     class(attr.file) <- get_filetype(attr.file)
-    read_data(attr.file, check.names = FALSE)
+    read_data(attr.file, check.names = FALSE, na.strings = ' ')
   } else {
     NULL
   }
