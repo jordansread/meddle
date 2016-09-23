@@ -2,9 +2,13 @@
 #'
 #' create skeleton from object
 #'
-#' @param object a regognized R object or vector of file names that can be read in to a recognized object class
+#' @param object a regognized R object or vector of file paths that can be read in to a recognized object class
 #' @param attr.file a file to write the attribute skeleton to
 #' @param \dots additional parameters passed to methods
+#' @details
+#' if the attribute file (\code{attr.file}) doesn't exist, a skeleton formatted file is created.
+#' If the file does exist, it is opened and any new fields are joined in. Existing content in
+#' \code{attr.file} is not overwritten.
 #' @export
 attribute_skeleton <- function(object, attr.file, ...){
   UseMethod("attribute_skeleton")
@@ -13,10 +17,8 @@ attribute_skeleton <- function(object, attr.file, ...){
 #' @keywords internal
 #' @export
 attribute_skeleton.data.frame <- function(object, attr.file, ...){
-  existing.attrs <- read_attr_file(attr.file)
-  obj.atts <- names(object)
-  # This is a work in progress
-  stop('method not implemented')
+  attrs <- names(object)
+  update_attr_table(attrs, attr.file)
 }
 
 #' attribute skeleton for an assumed file or files
@@ -26,36 +28,28 @@ attribute_skeleton.data.frame <- function(object, attr.file, ...){
 #'
 #' @keywords internal
 #' @export
-
 attribute_skeleton.character <- function(object, attr.file, ...){
   if (missing(attr.file)){
     attr.file <- as.attr_file(object)
   }
   # attempt to read in the file based on extension
-  stop('method not implemented')
+  class(object) <- get_filetype(object)
+
+  attrs <- get_attrs(filename = object)
+  update_attr_table(attrs, attr.file)
 }
 
-#' @importFrom tools file_path_sans_ext
-as.attr_file <- function(filename){
-  paste0(tools::file_path_sans_ext(filename[1]), '_metadata.csv')
-}
 #' @keywords internal
 #' @export
 attribute_skeleton.SpatialPointsDataFrame <- function(object, attr.file, ...){
-  stop('method not implemented yet')
+  attrs <- names(object)
+  update_attr_table(attrs, attr.file)
 }
 
 #' @keywords internal
 #' @export
 attribute_skeleton.SpatialPolygonsDataFrame <- function(object, attr.file, ...){
-  stop('method not implemented yet')
+  attrs <- names(object)
+  update_attr_table(attrs, attr.file)
 }
 
-read_attr_file <- function(attr.file){
-  # have package default or user setting of delimiter for attr.table?
-  if (file.exists(attr.file)){
-    read.table(attr.file, sep = ',', stringsAsFactors = FALSE)
-  } else {
-    NULL
-  }
-}

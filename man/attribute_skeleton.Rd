@@ -7,7 +7,7 @@
 attribute_skeleton(object, attr.file, ...)
 }
 \arguments{
-\item{object}{a regognized R object or vector of file names that can be read in to a recognized object class}
+\item{object}{a regognized R object or vector of file paths that can be read in to a recognized object class}
 
 \item{attr.file}{a file to write the attribute skeleton to}
 
@@ -15,5 +15,10 @@ attribute_skeleton(object, attr.file, ...)
 }
 \description{
 create skeleton from object
+}
+\details{
+if the attribute file (\code{attr.file}) doesn't exist, a skeleton formatted file is created.
+If the file does exist, it is opened and any new fields are joined in. Existing content in
+\code{attr.file} is not overwritten.
 }
 
