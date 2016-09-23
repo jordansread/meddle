@@ -27,9 +27,9 @@ merge_attr_table <- function(new.attrs, old.attrs){
 write_attr_file <- function(x, file){
   ext <- get_filetype(file)
   if (ext == 'csvfile'){
-    write.table(x, file, sep=',', row.names = FALSE, quote=TRUE)
+    write.table(x, file, sep=',', row.names = FALSE, quote=FALSE)
   } else if (ext == 'tsvfile'){
-    write.table(x, file, sep='\t', row.names = FALSE, quote=TRUE)
+    write.table(x, file, sep='\t', row.names = FALSE, quote=FALSE)
   } else stop(file, ' type not supported for write_attr_file', call. = FALSE)
 
 }
@@ -47,7 +47,7 @@ read_attr_file <- function(attr.file){
 }
 
 
-#' read attributes from a recognized file
+#' read attributes from a recognized file type
 #'
 #' return just the header names (attributes) for delimited files or shapefiles
 #'
@@ -56,13 +56,17 @@ read_attr_file <- function(attr.file){
 #' @export
 get_attrs <- function(filename){
   class(filename) <- get_filetype(filename)
-  UseMethod("read_attrs", object = filename)
+  UseMethod("get_attrs", object = filename)
 }
 
+#' @export
+#' @keywords internal
 get_attrs.csvfile <- function(filename){
   strsplit(readLines(filename, n = 1L), '[,]')[[1]]
 }
 
+#' @export
+#' @keywords internal
 get_attrs.tsvfile <- function(filename){
   strsplit(readLines(filename, n = 1L), '[\t]')[[1]]
 }

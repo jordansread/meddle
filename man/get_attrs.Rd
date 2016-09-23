@@ -2,7 +2,7 @@
 % Please edit documentation in R/attribute-utils.R
 \name{get_attrs}
 \alias{get_attrs}
-\title{read attributes from a recognized file}
+\title{read attributes from a recognized file type}
 \usage{
 get_attrs(filename)
 }
