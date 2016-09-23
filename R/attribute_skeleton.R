@@ -64,7 +64,8 @@ create_attr_table <- function(attrs){
   empty.ar <- rep(' ', length(attrs))
   data.frame('attr-label'=attrs, 'attr-def' = empty.ar,
              'attr-defs' = empty.ar, 'data-min' = empty.ar,
-             'data-max' = empty.ar, 'data-units' = empty.ar, stringsAsFactors = FALSE, check.names = FALSE)
+             'data-max' = empty.ar, 'data-units' = empty.ar,
+             stringsAsFactors = FALSE, check.names = FALSE)
 }
 
 merge_attr_table <- function(new.attrs, old.attrs){
@@ -76,6 +77,7 @@ merge_attr_table <- function(new.attrs, old.attrs){
   }
 }
 
+#' @export
 write_attr_file <- function(x, file){
   ext <- get_filetype(file)
   if (ext == 'csvfile'){
@@ -85,6 +87,9 @@ write_attr_file <- function(x, file){
   } else stop(file, ' type not supported for write_attr_file', call. = FALSE)
 
 }
+
+
+#' @export
 read_attr_file <- function(attr.file){
   # have package default or user setting of delimiter for attr.table?
   if (file.exists(attr.file)){
