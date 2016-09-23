@@ -69,7 +69,6 @@ create_attr_table <- function(attrs){
 
 merge_attr_table <- function(new.attrs, old.attrs){
 
-
   if (is.null(old.attrs)){
     return(new.attrs)
   } else {
@@ -99,5 +98,5 @@ read_attr_file <- function(attr.file){
 
 #' @importFrom tools file_path_sans_ext
 as.attr_file <- function(filename){
-  paste0(tools::file_path_sans_ext(filename[1]), '_metadata.csv')
+  paste0(tools::file_path_sans_ext(filename[1]), '_attributes.csv')
 }
