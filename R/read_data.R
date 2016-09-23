@@ -32,31 +32,3 @@ get_filetype <- function(filename){
   return(type)
 }
 
-#' read attributes from a recognized file
-#'
-#' return just the header names (attributes) for delimited files or shapefiles
-#'
-#' @param filename the full path for the file(s)
-#' @return the attributes as a character vector
-#' @export
-read_attrs <- function(filename){
-  class(filename) <- get_filetype(filename)
-  UseMethod("read_attrs", object = filename)
-}
-
-read_attrs.csvfile <- function(filename){
-  strsplit(readLines(filename, n = 1L), '[,]')[[1]]
-}
-
-read_attrs.tsvfile <- function(filename){
-  strsplit(readLines(filename, n = 1L), '[\t]')[[1]]
-}
-
-#' @importFrom foreign read.dbf
-#' @export
-#' @keywords internal
-read_attrs.shapefile <- function(filename){
-  dbf.file <- filename[grepl(pattern = '.dbf', x = filename)]
-  data <- foreign::read.dbf(dbf.file)
-  return(names(data))
-}
