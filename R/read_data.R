@@ -21,7 +21,12 @@ read_data.tsvfile <- function(filename, ...){
 #' @importFrom tools file_ext
 get_filetype <- function(filename){
   if (length(filename) == 1){
-    type <- paste0(tools::file_ext(filename),'file')
+    if (dir.exists(filename) && 'shp' %in% tools::file_ext(dir(filename))){
+      type <- 'shapedir'
+    } else {
+      type <- paste0(tools::file_ext(filename),'file')
+    }
+
   } else {
     if (length(filename) > 1 && 'shp' %in% tools::file_ext(filename)){
       type <- 'shapefile'
