@@ -89,6 +89,13 @@ get_attrs.tsvfile <- function(filename){
   strsplit(readLines(filename, n = 1L), '[\t]')[[1]]
 }
 
+#' @export
+#' @keywords internal
+get_attrs.shapedir <- function(filename){
+  filename <- file.path(filename, dir(filename))
+  get_attrs.shapefile(filename)
+}
+
 #' get attributes from a shapefile
 #'
 #' extract the attribute names from a shapefile file collection.

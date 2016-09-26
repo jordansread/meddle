@@ -21,4 +21,11 @@ if the attribute file (\code{attr.file}) doesn't exist, a skeleton formatted fil
 If the file does exist, it is opened and any new fields are joined in. Existing content in
 \code{attr.file} is not overwritten.
 }
+\examples{
+\dontrun{
+attr.file <- tempfile(fileext = '.csv')
+attribute_skeleton(system.file(package='meddle','extdata','example_shapefile'), attr.file)
+read_attr_file(attr.file)
+}
+}
 
