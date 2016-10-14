@@ -9,7 +9,7 @@ append_list_replace(list0, ...)
 \arguments{
 \item{list0}{the list to append to (w/ replacement)}
 
-\item{\dots}{additional arguments to add to or replace elements in list0}
+\item{\dots}{additional lists to add to or replace elements in list0}
 }
 \value{
 the merged list with later elements in \dots replacing earlier ones
