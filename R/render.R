@@ -16,8 +16,8 @@ render <- function(data, filename, ...){
 #' @importFrom yaml yaml.load_file
 #' @export
 render.character <- function(data, filename, ...){
-
-  config.text <- yaml::yaml.load_file(config)
+  stopifnot(file.exists(data))
+  config.text <- yaml::yaml.load_file(data)
   render(data = config.text, filename = filename, ...)
 }
 
