@@ -2,14 +2,22 @@
 % Please edit documentation in R/render.R
 \name{render}
 \alias{render}
+\alias{render.character}
+\alias{render.list}
 \title{render xml from data and template}
 \usage{
 render(data, filename, ...)
+
+\method{render}{character}(data, filename, ..., template)
+
+\method{render}{list}(data, filename, ..., template)
 }
 \arguments{
 \item{data}{filepath or list}
 
 \item{filename}{name of file to write metadata to}
+
+\item{template}{a character or filepath}
 
 \item{\dots}{additional lists to include or other arguments passed to methods
 (e.g., \code{template="metadata.mustache"})}
@@ -17,4 +25,22 @@ render(data, filename, ...)
 \description{
 create metadata file from input data or yaml file
 }
+\details{
+template can be missing, a filepath to a *.mustache file, or a string
+}
+\section{Methods (by class)}{
+\itemize{
+\item \code{character}: render text to a file from a yaml file
+
+\item \code{list}: render text to a file from a list
+}}
+\examples{
+render(list('dogname'='fred','catname'='midred'),
+   filename=NULL, list('dogname'='betty'), template="my dog's name is: {{dogname}}")
+
+}
+\seealso{
+\code{\link[whisker]{whisker.render}}
+}
+\keyword{internal}
 
