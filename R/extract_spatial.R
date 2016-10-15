@@ -45,31 +45,3 @@ get_feature_count <- function(sp){
   list('feature-count'=length(sp))
 }
 
-
-# get_states <- function(sp){
-#   # // CONUS
-#   destination = tempfile(pattern = 'CONUS_States', fileext='.zip')
-#   query <- 'http://cida.usgs.gov/gdp/geoserver/wfs?service=WFS&request=GetFeature&typeName=derivative:CONUS_States&outputFormat=shape-zip&version=1.0.0'
-#   file <- GET(query, write_disk(destination, overwrite=T), progress())
-#   shp.path <- tempdir()
-#   unzip(destination, exdir = shp.path)
-#   states <- readOGR(shp.path, layer='CONUS_States') %>%
-#     spTransform(proj4string(sp))
-#   overlaps <- sp_overlaps(states, sp)
-#   state.has.sp <- as.character(states$STATE)[colSums(overlaps) > 0]
-#
-#   destination = tempfile(pattern = 'Alaska', fileext='.zip')
-#   query <- 'http://cida.usgs.gov/gdp/geoserver/wfs?service=WFS&request=GetFeature&typeName=sample:Alaska&outputFormat=shape-zip&version=1.0.0'
-#   file <- GET(query, write_disk(destination, overwrite=T), progress())
-#   shp.path <- tempdir()
-#   unzip(destination, exdir = shp.path)
-#   alaska <- readOGR(shp.path, layer='Alaska') %>%
-#     spTransform(proj4string(sp)) %>%
-#     gSimplify(tol=0.001)
-#   if (any(sp_overlaps(alaska, sp))){
-#     state.has.sp <- c(state.has.sp, "Alaska")
-#   }
-#
-#   state.metadata <- lapply(sort(state.has.sp), function(x) list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x)))
-#   return(list(states=state.metadata))
-# }
