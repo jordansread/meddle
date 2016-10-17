@@ -57,6 +57,14 @@ feature_count.Spatial <- function(sp){
   list('feature-count'=length(sp))
 }
 
+#' extract and summarize spatial data
+#'
+#' create metadata list from sp object
+#'
+#' @param sp an object of class "Spatial"
+#' @param out a character vector of summary values
+#' @return a list according to names in spatial lookup tables for tag conversion
+#' @export
 extract_feature <- function(sp, out = c('bbox', 'type', 'count')){
   feature <- list()
   for (fun in out){
