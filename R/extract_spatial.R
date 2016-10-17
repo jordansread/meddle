@@ -1,4 +1,7 @@
 
+feature_bbox <- function(sp){
+  UseMethod("feature_bbox")
+}
 #' get the bounding box of the feature(s)
 #'
 #' Calculate the bounding box of the feature(s) in  lat/lon, formatted for metadata field entry
@@ -8,7 +11,7 @@
 #' @importFrom sp bbox
 #' @keywords internal
 #' @export
-get_bbox <- function(sp){
+feature_bbox.Spatial <- function(sp){
   if (!grepl(pattern = 'WGS84', proj4string(sp))){
     stop('sp must be in WGS84 to calculate a valid bounding box')
   }
@@ -17,6 +20,10 @@ get_bbox <- function(sp){
               nbbox=bounds[2,1], sbbox=bounds[2,2]))
 }
 
+
+feature_type <- function(sp){
+  UseMethod("feature_type")
+}
 #' get the FGDC feature type of spatial object
 #'
 #' Extract the FGDC feature type from an \code{sp} object
@@ -26,13 +33,18 @@ get_bbox <- function(sp){
 #' @details only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
 #' @keywords internal
 #' @export
-get_feature_type <- function(sp){
-  feature.type = switch(class(sp),
-                        "SpatialPointsDataFrame" = "Point",
-                        "SpatialPolygonsDataFrame" = "G-polygon")
-  list('feature-type'=feature.type)
+feature_type.SpatialPolygons <- function(sp){
+  list('feature-type'="G-polygon")
+}
+#' @keywords internal
+#' @export
+feature_type.SpatialPoints <- function(sp){
+  list('feature-type'="Point")
 }
 
+feature_count <- function(sp){
+  UseMethod("feature_count")
+}
 #' get the feature count from a spatial object
 #'
 #' Tally the number of features in a \code{sp} object
@@ -41,7 +53,14 @@ get_feature_type <- function(sp){
 #' @param return a list with \code{feature-count} field
 #' @keywords internal
 #' @export
-get_feature_count <- function(sp){
+feature_count.Spatial <- function(sp){
   list('feature-count'=length(sp))
 }
 
+extract_feature <- function(sp, out = c('bbox', 'type', 'count')){
+  feature <- list()
+  for (fun in out){
+    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=sp)))
+  }
+  return(feature)
+}
