@@ -57,6 +57,30 @@ feature_count.Spatial <- function(sp){
   list('feature-count'=length(sp))
 }
 
+feature_states <- function(sp){
+  UseMethod("feature_states")
+}
+
+feature_states.SpatialPoints <- function(sp){
+
+}
+
+feature_states.SpatialPolygons <- function(sp){
+
+}
+
+overlaps <- function(sp0, sp1){
+  UseMethod("overlaps")
+}
+
+overlaps.SpatialPoints <- function(){
+    gContains(sp0, sp1, byid = TRUE)
+}
+
+overlaps.SpatialPolygons <- function(){
+  gOverlaps(sp0, gSimplify(sp1, tol=0.001), byid = TRUE)
+}
+
 #' extract and summarize spatial data
 #'
 #' create metadata list from sp object
