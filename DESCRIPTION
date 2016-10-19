@@ -21,7 +21,8 @@ Imports:
     rgdal,
     rgeos,
     maptools,
-    foreign
+    foreign,
+    dataRetrieval
 Suggests:
     testthat,
     knitr

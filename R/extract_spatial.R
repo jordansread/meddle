@@ -78,6 +78,7 @@ feature_states <- function(sp){
 }
 #' @keywords internal
 #' @export
+#' @importFrom dataRetrieval stateCdLookup
 feature_states.Spatial <- function(sp){
   states <- get_states()
   state.overlap <- overlaps(sp, states)
