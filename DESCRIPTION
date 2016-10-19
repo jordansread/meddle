@@ -17,6 +17,7 @@ Imports:
     whisker,
     sp,
     rgdal,
+    maps,
     rgeos,
     maptools,
     foreign
