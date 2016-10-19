@@ -97,8 +97,8 @@ feature_states.Spatial <- function(sp){
 #' @importFrom sp CRS
 get_states <- function(){
   us_48 <- map("state", fill=TRUE, plot=FALSE)
-  us_hi <- map("world", c("USA:Hawaii"), fill=TRUE, plot=FALSE)
-  us_ak <- map("world", c("USA:Alaska"), fill=TRUE, plot=FALSE)
+  us_hi <- map("world", "USA:Hawaii", fill=TRUE, plot=FALSE)
+  us_ak <- map("world", "USA:Alaska", fill=TRUE, plot=FALSE)
   usa <- c(us_48, us_hi, us_ak)
 
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
