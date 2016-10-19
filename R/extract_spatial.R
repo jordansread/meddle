@@ -100,6 +100,7 @@ get_states <- function(){
   us_hi <- map("world", "USA:Hawaii", fill=TRUE, plot=FALSE)
   us_ak <- map("world", "USA:Alaska", fill=TRUE, plot=FALSE)
   usa <- c(us_48, us_hi, us_ak)
+  IDs <- sapply(strsplit(usa$names, ":"), function(x) x[1])
 
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
   return(usa)
