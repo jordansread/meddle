@@ -6,6 +6,9 @@
 # meddle
 Tools for metadata creation and data releases  
 
+[![Coverage Status](https://coveralls.io/repos/github/USGS-R/meddle/badge.svg?branch=master)](https://coveralls.io/github/USGS-R/meddle?branch=master)
+
+
 Disclaimer
 ----------
 This software is designed as an internal tool to help with the creation of data releases. Although the functionality in this package may be useful to others, this tool is not maintained or supported as a primary package.

@@ -17,4 +17,10 @@ a list according to names in spatial lookup tables for tag conversion
 \description{
 create metadata list from sp object
 }
+\examples{
+Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
+Srs1 = Polygons(list(Sr1), "s1")
+p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+extract_feature(p)
+}
 
