@@ -5,6 +5,7 @@ read_data <- function(filename, ...){
 
 #' @importFrom rgdal readOGR
 #' @importFrom tools file_path_sans_ext
+#' @importFrom utils read.table write.table
 read_data.shapefile <- function(filename, ...){
   rgdal::readOGR(dirname(filename[1]), layer = tools::file_path_sans_ext(filename[1]), ...)
 }

@@ -41,6 +41,13 @@ merge_attr_table <- function(new.attrs, old.attrs){
   return(new.attrs)
 }
 
+#' write a file formatted as attributes
+#'
+#' write external file for attributes
+#'
+#' @param x the data to be written to file
+#' @param file a filepath to a file that is comma or tab delimited
+#' @rdname attr_file
 #' @export
 write_attr_file <- function(x, file){
   ext <- get_filetype(file)
@@ -52,7 +59,13 @@ write_attr_file <- function(x, file){
 
 }
 
-
+#' read in a file formatted as attributes
+#'
+#' read in external file for attributes
+#'
+#' @param attr.file a filepath to a file that is comma or tab delimited
+#' @return the data.frame of formatted attributes
+#' @rdname attr_file
 #' @export
 read_attr_file <- function(attr.file){
   # have package default or user setting of delimiter for attr.table?
@@ -137,6 +150,7 @@ as.attr_file <- function(filename){
 #' @param x a file name for attributes file or a data.frame from \code{\link{read_attr_file}}
 #' @return a list of attributes and values for rendering
 #' @keywords internal
+#' @importFrom methods is
 #' @export
 as.attr_list <- function(x){
   if (is(x, 'character') && file.exists(x)){
