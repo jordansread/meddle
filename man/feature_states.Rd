@@ -16,6 +16,7 @@ a list with \code{states} field
 summarize the spatial extent of data relative to overlap w/ US states
 }
 \examples{
+library(sp)
 p = SpatialPoints(cbind(-89,42), proj4string=CRS("+proj=longlat +datum=WGS84"))
 feature_states(p)
 

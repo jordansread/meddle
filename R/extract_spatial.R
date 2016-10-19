@@ -65,6 +65,7 @@ feature_count.Spatial <- function(sp){
 #' @return a list with \code{states} field
 #' @export
 #' @examples
+#' library(sp)
 #' p = SpatialPoints(cbind(-89,42), proj4string=CRS("+proj=longlat +datum=WGS84"))
 #' feature_states(p)
 #'
@@ -93,6 +94,7 @@ feature_states.Spatial <- function(sp){
 
 #' @importFrom maps map
 #' @importFrom maptools map2SpatialPolygons
+#' @importFrom sp CRS
 get_states <- function(){
   usa <- map("state", fill = TRUE, plot = FALSE)
   IDs <- sapply(strsplit(usa$names, ":"), function(x) x[1])
@@ -125,6 +127,7 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
 #' @return a list according to names in spatial lookup tables for tag conversion
 #' @export
 #' @examples
+#' library(sp)
 #' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
 #' Srs1 = Polygons(list(Sr1), "s1")
 #' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
