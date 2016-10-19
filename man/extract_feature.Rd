@@ -4,7 +4,7 @@
 \alias{extract_feature}
 \title{extract and summarize spatial data}
 \usage{
-extract_feature(sp, out = c("bbox", "type", "count"))
+extract_feature(sp, out = c("bbox", "type", "count", "states"))
 }
 \arguments{
 \item{sp}{an object of class "Spatial"}
@@ -16,5 +16,12 @@ a list according to names in spatial lookup tables for tag conversion
 }
 \description{
 create metadata list from sp object
+}
+\examples{
+library(sp)
+Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
+Srs1 = Polygons(list(Sr1), "s1")
+p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+extract_feature(p)
 }
 

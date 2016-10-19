@@ -1,6 +1,6 @@
 Package: meddle
 Title: Metadata generation for data releases
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(person("Jordan", "Read", email = "jread@usgs.gov", role = c("aut", "cre")),
   person("Aaron", "Berdanier", email = "aaron.berdanier@duke.edu", role = c("aut")),
   person("Jordan", "Walker", email = "jiwalker@usgs.gov", role = c("aut")))
@@ -12,12 +12,17 @@ Copyright: This software is in the public domain because it contains materials
     the United States Department of Interior. For more information, see the
     official USGS copyright policy at
     http://www.usgs.gov/visual-id/credit_usgs.html#copyright
+Depends:
+    maps
 Imports:
     yaml,
     whisker,
     sp,
     rgdal,
-    foreign
+    rgeos,
+    maptools,
+    foreign,
+    dataRetrieval
 Suggests:
     testthat,
     knitr
