@@ -10,7 +10,8 @@ s.poly.df <- sp::SpatialPolygonsDataFrame(s.poly, data = df)
 s.point <- sp::SpatialPoints(cbind(-89,42), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
 s.point.df <- sp::SpatialPointsDataFrame(cbind(-89,42), proj4string=sp::CRS("+proj=longlat +datum=WGS84"), data = data.frame('name','point1'))
 
-s.points <- sp::SpatialPoints(cbind(c(-89, -108),c(42, 33)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+s.points <- sp::SpatialPoints(cbind(c(-89, -108, -154),c(42, 33, 65.58)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+
 
 test_that("feature types are correct", {
   expect_equal(meddle:::feature_type(s.poly)[['feature-type']], "G-polygon")
@@ -28,13 +29,13 @@ test_that("feature bounding boxes are correct", {
   expect_true(all(names(bb.point) %in% c("wbbox", "ebbox", "nbbox", "sbbox")))
   expect_equal(bb.point$wbbox, bb.point$ebbox)
   expect_false(bb.poly$wbbox == bb.poly$ebbox)
-  expect_equal(meddle:::feature_bbox(s.points)$wbbox, -108)
+  expect_equal(meddle:::feature_bbox(s.points)$wbbox, -154)
 })
 
 test_that("feature counts are correct", {
   expect_equal(meddle:::feature_count(s.poly)[['feature-count']], 1)
   expect_equal(meddle:::feature_count(s.point)[['feature-count']], 1)
-  expect_equal(meddle:::feature_count(s.points)[['feature-count']], 2)
+  expect_equal(meddle:::feature_count(s.points)[['feature-count']], 3)
 })
 
 test_that("feature overlap with states are correct", {

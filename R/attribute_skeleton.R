@@ -24,7 +24,7 @@ attribute_skeleton <- function(object, attr.file, ...){
 #' @keywords internal
 #' @export
 attribute_skeleton.data.frame <- function(object, attr.file, ...){
-  attrs <- names(object)
+  attrs <- attr_names(object)
   update_attr_table(attrs, attr.file)
 }
 
@@ -35,14 +35,12 @@ attribute_skeleton.data.frame <- function(object, attr.file, ...){
 #'
 #' @keywords internal
 #' @export
-attribute_skeleton.character <- function(object, attr.file, ...){
-  if (missing(attr.file)){
-    attr.file <- as.attr_file(object)
-  }
+attribute_skeleton.character <- function(object, attr.file = as.attr_file(object), ...){
+
   # attempt to read in the file based on extension
   class(object) <- get_filetype(object)
 
-  attrs <- get_attrs(filename = object)
+  attrs <- attr_names(object)
   update_attr_table(attrs, attr.file)
 }
 
