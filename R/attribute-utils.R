@@ -41,6 +41,13 @@ merge_attr_table <- function(new.attrs, old.attrs){
   return(new.attrs)
 }
 
+#' write a file formatted as attributes
+#'
+#' write external file for attributes
+#'
+#' @param x the data to be written to file
+#' @param file a filepath to a file that is comma or tab delimited
+#' @rdname attr_file
 #' @export
 write_attr_file <- function(x, file){
   ext <- get_filetype(file)
@@ -52,7 +59,13 @@ write_attr_file <- function(x, file){
 
 }
 
-
+#' read in a file formatted as attributes
+#'
+#' read in external file for attributes
+#'
+#' @param attr.file a filepath to a file that is comma or tab delimited
+#' @return the data.frame of formatted attributes
+#' @rdname attr_file
 #' @export
 read_attr_file <- function(attr.file){
   # have package default or user setting of delimiter for attr.table?
@@ -64,36 +77,62 @@ read_attr_file <- function(attr.file){
   }
 }
 
-
 #' read attributes from a recognized file type
 #'
 #' return just the header names (attributes) for delimited files or shapefiles
 #'
-#' @param filename the full path for the file(s)
+#' @param x the full path for the file(s) or an object
 #' @return the attributes as a character vector
+#' @examples
+#' # attribute names from a shapefile:
+#' attr_names(system.file(package='meddle','extdata','example_shapefile'))
+#'
+#' # attribute names from a Spatial object:
+#' sp <- read_data(system.file(package='meddle','extdata','example_shapefile'))
+#' attr_names(sp)
 #' @export
-get_attrs <- function(filename){
-  class(filename) <- get_filetype(filename)
-  UseMethod("get_attrs", object = filename)
+attr_names <- function(x){
+  UseMethod("attr_names")
+}
+
+
+#' @export
+#' @keywords internal
+attr_names.character <- function(x){
+  stopifnot(file.exists(x))
+  class(x) <- get_filetype(x)
+  UseMethod("attr_names", object = x)
 }
 
 #' @export
 #' @keywords internal
-get_attrs.csvfile <- function(filename){
-  strsplit(readLines(filename, n = 1L), '[,]')[[1]]
+attr_names.csvfile <- function(x){
+  strsplit(readLines(x, n = 1L), '[,]')[[1]]
 }
 
 #' @export
 #' @keywords internal
-get_attrs.tsvfile <- function(filename){
-  strsplit(readLines(filename, n = 1L), '[\t]')[[1]]
+attr_names.tsvfile <- function(x){
+  strsplit(readLines(x, n = 1L), '[\t]')[[1]]
 }
 
 #' @export
 #' @keywords internal
-get_attrs.shapedir <- function(filename){
-  filename <- file.path(filename, dir(filename))
-  get_attrs.shapefile(filename)
+attr_names.shapedir <- function(x){
+  x <- file.path(x, dir(x))
+  attr_names.shapefile(x)
+}
+
+#' @export
+#' @keywords internal
+attr_names.Spatial <- function(x){
+  names(x)
+}
+
+#' @export
+#' @keywords internal
+attr_names.data.frame <- function(x){
+  names(x)
 }
 
 #' get attributes from a shapefile
@@ -110,7 +149,7 @@ get_attrs.shapedir <- function(filename){
 #' @importFrom foreign read.dbf
 #' @export
 #' @keywords internal
-get_attrs.shapefile <- function(filename){
+attr_names.shapefile <- function(filename){
   dbf.file <- filename[grepl(pattern = '.dbf', x = filename)]
   data <- foreign::read.dbf(dbf.file)
   return(names(data))
@@ -128,8 +167,6 @@ as.attr_file <- function(filename){
   paste0(tools::file_path_sans_ext(filename[1]), '_attributes.csv')
 }
 
-
-
 #' read and format attributes from delimited file or data.frame
 #'
 #' formats an attribute table into a list appropriate for metadata rendering
@@ -137,11 +174,23 @@ as.attr_file <- function(filename){
 #' @param x a file name for attributes file or a data.frame from \code{\link{read_attr_file}}
 #' @return a list of attributes and values for rendering
 #' @keywords internal
+#' @importFrom methods is
 #' @export
 as.attr_list <- function(x){
-  if (is(x, 'character') && file.exists(x)){
-    x <- read_attr_file(x)
-  }
+  UseMethod("as.attr_list")
+}
+
+#' @export
+#' @keywords internal
+as.attr_list.character <- function(x){
+  stopifnot(file.exists(x))
+  x <- read_attr_file(x)
+  UseMethod('as.attr_list', object=x)
+}
+
+#' @export
+#' @keywords internal
+as.attr_list.data.frame <- function(x){
   out <- list()
   for (i in 1:nrow(x)){
     out[[i]] <- list(x[i,])
@@ -149,3 +198,9 @@ as.attr_list <- function(x){
   return(list('attributes'=out))
 }
 
+#' @export
+#' @keywords internal
+as.attr_list.list <- function(x){
+  # validate here?
+  return(x)
+}

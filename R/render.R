@@ -34,6 +34,7 @@ render.character <- function(data, filename, ..., template){
 #' @describeIn render render text to a file from a list
 #' @export
 #' @importFrom whisker whisker.render
+#' @importFrom utils packageName
 render.list <- function(data, filename, ..., template){
   if (missing(template)){
     template <- system.file(package=packageName(),'extdata', "FGDC_template.mustache")

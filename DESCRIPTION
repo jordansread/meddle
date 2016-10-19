@@ -21,6 +21,9 @@ Imports:
     rgdal,
     rgeos,
     maptools,
+    tools,
+    utils,
+    methods,
     foreign,
     dataRetrieval
 Suggests:

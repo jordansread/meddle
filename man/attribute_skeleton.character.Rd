@@ -4,7 +4,8 @@
 \alias{attribute_skeleton.character}
 \title{attribute skeleton for an assumed file or files}
 \usage{
-\method{attribute_skeleton}{character}(object, attr.file, ...)
+\method{attribute_skeleton}{character}(object,
+  attr.file = as.attr_file(object), ...)
 }
 \description{
 will attempt to figure out the content, read in the file(s) and then
