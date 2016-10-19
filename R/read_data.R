@@ -23,7 +23,7 @@ read_data.character <- function(filename, ...){
 #' @export
 #' @keywords internal
 read_data.shapefile <- function(filename, ...){
-  rgdal::readOGR(dirname(filename[1]), layer = tools::file_path_sans_ext(filename[1]), ...)
+  rgdal::readOGR(dirname(filename[1]), layer = basename(tools::file_path_sans_ext(filename[1])), ...)
 }
 
 #' @export
