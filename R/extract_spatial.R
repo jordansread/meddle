@@ -57,28 +57,63 @@ feature_count.Spatial <- function(sp){
   list('feature-count'=length(sp))
 }
 
+#' get the states that features overlap with
+#'
+#' summarize the spatial extent of data relative to overlap w/ US states
+#'
+#' @param sp an object of class \code{Spatial}
+#' @return a list with \code{states} field
+#' @export
+#' @examples
+#' p = SpatialPoints(cbind(-89,42), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' feature_states(p)
+#'
+#' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
+#' Srs1 = Polygons(list(Sr1), "s1")
+#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' feature_states(p)
 feature_states <- function(sp){
   UseMethod("feature_states")
 }
-
-feature_states.SpatialPoints <- function(sp){
-
+#' @keywords internal
+#' @export
+feature_states.Spatial <- function(sp){
+  states <- get_states()
+  state.overlap <- overlaps(sp, states)
+  as.state_name <- function(x){
+    s <- strsplit(x, " ")[[1]]
+    paste(toupper(substring(s, 1,1)), substring(s, 2),
+          sep="", collapse=" ")
+  }
+  state.names <- unname(sapply(names(states)[state.overlap], as.state_name))
+  feature.states <- lapply(sort(state.names), function(x) list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x)))
+  return(list(states = feature.states))
 }
 
-feature_states.SpatialPolygons <- function(sp){
 
+#' @importFrom maps map
+#' @importFrom maptools map2SpatialPolygons
+get_states <- function(){
+  usa <- map("state", fill = TRUE, plot = FALSE)
+  IDs <- sapply(strsplit(usa$names, ":"), function(x) x[1])
+
+  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
+  return(usa)
 }
 
+#' @importFrom rgeos gOverlaps gContains gSimplify
 overlaps <- function(sp0, sp1){
   UseMethod("overlaps")
 }
 
-overlaps.SpatialPoints <- function(){
-    gContains(sp0, sp1, byid = TRUE)
+overlaps.SpatialPoints <- function(sp0, sp1){
+  overlaps <- gContains(sp1, sp0, byid = TRUE)
+  unname(colSums(overlaps) > 0)
 }
 
-overlaps.SpatialPolygons <- function(){
-  gOverlaps(sp0, gSimplify(sp1, tol=0.001), byid = TRUE)
+overlaps.SpatialPolygons <- function(sp0, sp1){
+  overlaps <- gOverlaps(sp1, gSimplify(sp0, tol=0.001), byid = TRUE)
+  unname(colSums(overlaps) > 0)
 }
 
 #' extract and summarize spatial data
@@ -89,7 +124,12 @@ overlaps.SpatialPolygons <- function(){
 #' @param out a character vector of summary values
 #' @return a list according to names in spatial lookup tables for tag conversion
 #' @export
-extract_feature <- function(sp, out = c('bbox', 'type', 'count')){
+#' @examples
+#' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
+#' Srs1 = Polygons(list(Sr1), "s1")
+#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' extract_feature(p)
+extract_feature <- function(sp, out = c('bbox', 'type', 'count', 'states')){
   feature <- list()
   for (fun in out){
     feature <- append(feature, do.call(paste0('feature_', fun), list(sp=sp)))

@@ -17,6 +17,8 @@ Imports:
     whisker,
     sp,
     rgdal,
+    rgeos,
+    maptools,
     foreign
 Suggests:
     testthat,
