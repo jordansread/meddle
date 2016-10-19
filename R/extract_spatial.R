@@ -84,8 +84,7 @@ feature_states.Spatial <- function(sp){
   state.overlap <- overlaps(sp, states)
   as.state_name <- function(x){
     s <- strsplit(x, " ")[[1]]
-    paste(toupper(substring(s, 1,1)), substring(s, 2),
-          sep="", collapse=" ")
+    paste0(toupper(substring(s, 1,1)), substring(s, 2), collapse=" ")
   }
   state.names <- unname(sapply(names(states)[state.overlap], as.state_name))
   feature.states <- lapply(sort(state.names), function(x) list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x)))
@@ -97,8 +96,10 @@ feature_states.Spatial <- function(sp){
 #' @importFrom maptools map2SpatialPolygons
 #' @importFrom sp CRS
 get_states <- function(){
-  usa <- map("state", fill = TRUE, plot = FALSE)
-  IDs <- sapply(strsplit(usa$names, ":"), function(x) x[1])
+  us_48 <- map("state", fill=TRUE, plot=FALSE)
+  us_hi <- map("world", c("USA:Hawaii"), fill=TRUE, plot=FALSE)
+  us_ak <- map("world", c("USA:Alaska"), fill=TRUE, plot=FALSE)
+  usa <- c(us_48, us_hi, us_ak)
 
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
   return(usa)
