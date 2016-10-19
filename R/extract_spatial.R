@@ -8,7 +8,7 @@ feature_bbox <- function(sp){
 #'
 #' @param sp a spatial object from the \code{sp} package
 #' @return a list with \code{wbbox}, \code{ebbox}, \code{nbbox}, \code{sbbox} fields
-#' @importFrom sp bbox
+#' @importFrom sp bbox proj4string
 #' @keywords internal
 #' @export
 feature_bbox.Spatial <- function(sp){
