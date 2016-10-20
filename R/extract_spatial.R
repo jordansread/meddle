@@ -1,7 +1,3 @@
-
-feature_bbox <- function(sp){
-  UseMethod("feature_bbox")
-}
 #' get the bounding box of the feature(s)
 #'
 #' Calculate the bounding box of the feature(s) in  lat/lon, formatted for metadata field entry
@@ -9,6 +5,11 @@ feature_bbox <- function(sp){
 #' @param sp a spatial object from the \code{sp} package
 #' @return a list with \code{wbbox}, \code{ebbox}, \code{nbbox}, \code{sbbox} fields
 #' @importFrom sp bbox proj4string
+#' @export
+feature_bbox <- function(sp){
+  UseMethod("feature_bbox")
+}
+
 #' @keywords internal
 #' @export
 feature_bbox.Spatial <- function(sp){
@@ -134,10 +135,23 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
 #' Srs1 = Polygons(list(Sr1), "s1")
 #' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
 #' extract_feature(p)
-extract_feature <- function(sp, out = c('bbox', 'type', 'count', 'states')){
+extract_feature <- function(x, ...){
+  UseMethod("extract_feature")
+}
+
+#' @keywords internal
+#' @export
+extract_feature.character <- function(x, ...){
+  stopifnot(file.exists(x))
+  extract_feature(read_data(x), ...)
+}
+
+#' @keywords internal
+#' @export
+extract_feature.Spatial <- function(x, out = c('bbox', 'type', 'count', 'states')){
   feature <- list()
   for (fun in out){
-    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=sp)))
+    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=x)))
   }
   return(feature)
 }

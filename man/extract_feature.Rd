@@ -4,7 +4,7 @@
 \alias{extract_feature}
 \title{extract and summarize spatial data}
 \usage{
-extract_feature(sp, out = c("bbox", "type", "count", "states"))
+extract_feature(x, ...)
 }
 \arguments{
 \item{sp}{an object of class "Spatial"}
