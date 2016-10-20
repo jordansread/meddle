@@ -44,5 +44,5 @@ test_that("feature overlap with states are correct", {
   state.points <- sapply(meddle:::feature_states(s.points)[['states']],function(x) x[['state-name']])
   expect_equal(state.poly, c("Illinois", "Wisconsin"))
   expect_equal(state.point, c("Illinois"))
-  expect_equal(state.points, c("Illinois", "New Mexico"))
+  expect_equal(state.points, c("Alaska", "Illinois", "New Mexico"))
 })
