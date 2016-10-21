@@ -1,57 +1,65 @@
 
-spatial: "example_shapefile/"
+release:
+  authors: ["Alison P Appling","Jordan S Read","Luke A Winslow", "Arroita", "Emily Bernhardt", "Natalie Griffiths", "Robert Hall", "Judson Harvey", "Heffernan", "Emily Stanley", "Edward Stets", "Charles Yackulic"]
+  pubdate: 2017
+  title: >-
+    Data release: A national database for river metabolism (2007-present)
+  doi: http://dx.doi.org/10.5066/REPLACE.w.REAL
+  abstract: >-
+    Abstract text from paper
+  purpose: To bring metabolism data to the world!
+  start-date: SCRIPT 20070101
+  end-date: SCRIPT 2016XXXX
+  update: update planned for year 2020
+  themekeywords: ["water","streams","rivers","metabolism","primary productivity","carbon","respiration"]
+  usage-rules: >-
+    These data are subject to change and are not citable until reviewed and approved for official publication by the USGS
+  contact-person: Jordan S Read
+  contact-phone: 608 821-3922
+  contact-email: jread@usgs.gov
+  funding-credits: >-
+    This work has been funded by Powell Center and X and Y and Z...
+  ADD-CONTENT: yaml.load_file("example_parent.yaml")
 
-attr-table: "example_attributes.csv"
+associated-pub:
+  cite-authors: Appling, Alison P., Read, Jordan S., other authors here
+  cite-date: FAKE date of paper release
+  cite-title: >-
+    Powstreams: A national database for river metabolism (2007-present)
+  paper: paper
+  publisher: Nature?
+  journal: Nature Scientific Data
 
-parent-content: "example_parent.yaml"
+data-details:
+  process-description: data were pulled or synthesized from existing etc...
+  process-date: SCRIPT 20161104
+  data-name: River metabolism input data
+  data-description: Timeseries observations of environmental conditions made by sensors, subsetted gridded timeseries data, and derived data from both of these sources.
+  build-environment: stuff on mac things on pc, R versions etc
+  file-format: Tab-delimited text files
+  metadata-date: 2016XXXX
+  metadata-person: Alison P. Appling
+  metadata-phone: 608 821-3927
+  metadata-email: aappling@usgs.gov
+  distro-person: Alison P. Appling
+  liability-statement: >-
+    Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected.
+    Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS),
+    no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall
+    the act of distribution constitute any such warranty.
+  ADD-CONTENT:
+    - as.attr_list("example_attributes.csv")
+    - metadata-date: Sys.time()
 
-authors: ["Alison P Appling","Jordan S Read","Luke A Winslow", "Arroita", "Emily Bernhardt", "Natalie Griffiths", "Robert Hall", "Judson Harvey", "Heffernan", "Emily Stanley", "Edward Stets", "Charles Yackulic"]
-pubdate: 2017
-title: >-
-  Data release: A national database for river metabolism (2007-present)
-doi: http://dx.doi.org/10.5066/REPLACE.w.REAL
-abstract: >-
-  Abstract text from paper
+spatial:
+  indirect-spatial: U.S.A.
+  latitude-res: 0.1?
+  longitude-res: 0.1?
+  ADD-CONTENT: extract_feature("example_shapefile/")
 
-purpose: To bring metabolism data to the world!
-start-date: SCRIPT 20070101
-end-date: SCRIPT 2016XXXX
-update: update planned for year 2020
-themekeywords: ["water","streams","rivers","metabolism","primary productivity","carbon","respiration"]
-usage-rules: >-
-  These data are subject to change and are not citable until reviewed and approved for official publication by the USGS
 
-contact-person: Jordan S Read
-contact-phone: 608 821-3922
-contact-email: jread@usgs.gov
-funding-credits: >-
-  This work has been funded by Powell Center and X and Y and Z...
 
-build-environment: stuff on mac things on pc, R versions etc
-cite-authors: Appling, Alison P., Read, Jordan S., other authors here
-cite-date: FAKE date of paper release
-cite-title: >-
-  Powstreams: A national database for river metabolism (2007-present)
-paper: paper
-publisher: Nature?
-journal: Nature Scientific Data
-process-description: data were pulled or synthesized from existing etc...
-process-date: SCRIPT 20161104
-indirect-spatial: U.S.A.
-latitude-res: 0.1?
-longitude-res: 0.1?
-data-name: River metabolism input data
-data-description: Timeseries observations of environmental conditions made by sensors, subsetted gridded timeseries data, and derived data from both of these sources.
 
-distro-person: Alison P. Appling
-liability-statement: >-
-  Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected.
-  Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS),
-  no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall
-  the act of distribution constitute any such warranty.
 
-file-format: Tab-delimited text files
-metadata-date: 2016XXXX
-metadata-person: Alison P. Appling
-metadata-phone: 608 821-3927
-metadata-email: aappling@usgs.gov
+
+
