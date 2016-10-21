@@ -39,6 +39,8 @@ render.list <- function(data, filename, ..., template){
   if (missing(template)){
     template <- system.file(package=packageName(),'extdata', "FGDC_template.mustache")
   }
+  # do special things for `ADD-CONTENT` blocks?
+  # parse(text=as.character(d$`spatial`$`ADD-CONTENT`), keep.source=FALSE)
   text <- append_list_replace(data, ...)
   template <- as.template(template)
   output <- whisker::whisker.render(template, text)
@@ -48,4 +50,13 @@ render.list <- function(data, filename, ..., template){
     cat(output, file = filename)
   }
 
+}
+
+add_content <- function(x, old){
+  data = eval(parse(text=as.character(x)))
+  if (!is.null(names(x))){
+    data <- list(data)
+    names(data) <- names(x)
+  }
+  return(append(old, data))
 }
