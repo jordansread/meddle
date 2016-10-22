@@ -52,11 +52,12 @@ render.list <- function(data, filename, ..., template){
 
 }
 
-add_content <- function(x, old){
-  data = eval(parse(text=as.character(x)))
-  if (!is.null(names(x))){
-    data <- list(data)
-    names(data) <- names(x)
+eval_content <- function(x){
+  if (grepl('`r ',  x)){
+    exp <- gsub("`r (.*?)`", "\\1", x)
+    data = eval(parse(text=as.character(exp)))
+  } else {
+    data <- x
   }
-  return(append(old, data))
+  return(data)
 }
