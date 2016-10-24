@@ -1,0 +1,62 @@
+
+meddle-version: "0.0.3"
+document-created: "20161022"
+document-creator: "Jordan S Read"
+
+# ----data release----
+authors: ["Alison P Appling","Jordan S Read","Luke A Winslow", "Maite Arroita", "Emily Bernhardt", "Natalie Griffiths", "Robert Hall", "Judson Harvey", "Jim Heffernan", "Emily Stanley", "Edward Stets", "Charles Yackulic"]
+pubdate: 2017
+title: >-
+  Data release: A national database for river metabolism (2007-present)
+doi: http://dx.doi.org/10.5066/REPLACE.w.REAL
+abstract: >-
+  Abstract text from paper
+purpose: To bring metabolism data to the world!
+start-date: SCRIPT 20070101
+end-date: SCRIPT 2016XXXX
+update: update planned for year 2020
+themekeywords: ["water","streams","rivers","metabolism","primary productivity","carbon","respiration"]
+usage-rules: >-
+  These data are subject to change and are not citable until reviewed and approved for official publication by the USGS
+contact-person: Jordan S Read
+contact-phone: 608 821-3922
+contact-email: jread@usgs.gov
+funding-credits: >-
+  This work has been funded by Powell Center and X and Y and Z...
+
+# ----associated publication----
+cite-authors: Appling, Alison P., Read, Jordan S., other authors here
+cite-date: FAKE date of paper release
+cite-title: >-
+  Powstreams: A national database for river metabolism (2007-present)
+paper: paper
+publisher: Nature?
+journal: Nature Scientific Data
+
+# ----dataset details----
+process-description: data were pulled or synthesized from existing etc...
+process-date: SCRIPT 20161104
+data-name: River metabolism input data
+data-description: Timeseries observations of environmental conditions made by sensors, subsetted gridded timeseries data, and derived data from both of these sources.
+build-environment: stuff on mac things on pc, R versions etc
+file-format: Tab-delimited text files
+metadata-date: "`r format(Sys.time(),'%Y%m%d')`"
+
+
+# ----spatial data----
+indirect-spatial: U.S.A.
+latitude-res: unknown
+longitude-res: unknown
+
+# ----external----
+external:
+- "`r as.attr_list('example_shapefile_attributes.csv')`"
+- "`r extract_feature('example_shapefile/')`"
+- "`r yaml.load_file('example_parent.yaml')`"
+
+
+
+
+
+
+

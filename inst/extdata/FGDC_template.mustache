@@ -4,7 +4,7 @@
     <citation>
       <citeinfo>
         {{#authors}}
-  <origin>{{.}}</origin>
+  	  	<origin>{{.}}</origin>
   {{/authors}}
         <pubdate>{{pubdate}}</pubdate>
         <title>{{title}}</title>
@@ -17,9 +17,7 @@
   {{/authors}} 
   <pubdate>{{pubdate}}</pubdate>
   <title>{{title}}</title>
-  {{#link}}
-  <onlink>{{.}}</onlink>
-  {{/link}} 
+  {{#link}}<onlink>{{.}}</onlink>{{/link}} 
   </citeinfo>
   </lworkcit>
 {{/larger-cites}}

@@ -101,7 +101,7 @@ attr_names <- function(x){
 attr_names.character <- function(x){
   stopifnot(file.exists(x))
   class(x) <- get_filetype(x)
-  UseMethod("attr_names", object = x)
+  attr_names(x)
 }
 
 #' @export
@@ -185,7 +185,7 @@ as.attr_list <- function(x){
 as.attr_list.character <- function(x){
   stopifnot(file.exists(x))
   x <- read_attr_file(x)
-  UseMethod('as.attr_list', object=x)
+  as.attr_list(x)
 }
 
 #' @export
@@ -193,7 +193,7 @@ as.attr_list.character <- function(x){
 as.attr_list.data.frame <- function(x){
   out <- list()
   for (i in 1:nrow(x)){
-    out[[i]] <- list(x[i,])
+    out[[i]] <- as.list(x[i,])
   }
   return(list('attributes'=out))
 }

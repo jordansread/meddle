@@ -27,6 +27,24 @@ render <- function(data, filename, ...){
 render.character <- function(data, filename, ..., template){
   stopifnot(file.exists(data))
   config.text <- yaml::yaml.load_file(data)
+  current.dir <- getwd()
+  # setting working directory to the file that is being used, evaluation will be relative to that directory
+  setwd(dirname(data))
+  external.resources <- config.text[['external']]
+  config.text[['external']] <- NULL # for the time being
+  tryCatch({
+    # evaluate any function calls
+    config.text <- lapply(config.text, eval_content)
+    # now evaluate external resources
+    for (j in seq_len(length(external.resources))){
+      config.text <- append_list_replace(config.text, eval_content(external.resources[j]))
+    }
+  }, error = function(err){
+    setwd(current.dir)
+    stop(err)
+  })
+  setwd(current.dir)
+
   render(data = config.text, filename = filename, ...)
 }
 
@@ -39,6 +57,7 @@ render.list <- function(data, filename, ..., template){
   if (missing(template)){
     template <- system.file(package=packageName(),'extdata', "FGDC_template.mustache")
   }
+
   text <- append_list_replace(data, ...)
   template <- as.template(template)
   output <- whisker::whisker.render(template, text)
@@ -46,6 +65,9 @@ render.list <- function(data, filename, ..., template){
     return(output)
   } else {
     cat(output, file = filename)
+    xml <- xml2::read_xml(filename)
+    xml2::write_xml(xml, filename)
   }
 
 }
+

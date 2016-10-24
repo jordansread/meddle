@@ -18,6 +18,7 @@ Imports:
     yaml,
     whisker,
     sp,
+    xml2 (>= 1.0.0),
     rgdal,
     rgeos,
     maptools,
