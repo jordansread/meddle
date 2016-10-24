@@ -17,7 +17,13 @@ if there is no function to be evaluated.
 helper function for evaluating code from text
 }
 \details{
-use "`r mean(c(2,3))`" to specify evaluating the \code{mean(c(2,3))}
+use "`r mean(c(2,3))`" to specify evaluating the \code{mean(c(2,3))}.
+If this syntax is not used, the values are passed through unaltered.
+}
+\examples{
+eval_content("`r mean(c(2,3))`")
+eval_content("`mean(c(2,3))`")
+eval_content(list(c=3))
 }
 \keyword{internal}
 

@@ -12,9 +12,13 @@
 #' Sr2 <- Polygon(cbind(c(-105,-105.5,-106,-105.5,-105),c(31.4,32,34,34,32)))
 #' Srs2 <- Polygons(list(Sr2), "s2")
 #' p <- SpatialPolygons(list(Srs1, Srs2), proj4string=CRS("+proj=longlat +datum=WGS84"))
-#' p.df <- SpatialPolygonsDataFrame(Sr = p, data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+#' p.df <- SpatialPolygonsDataFrame(Sr = p,
+#'    data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+#' \dontrun{
 #' library(rgdal)
-#' writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile', driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+#' writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile',
+#'    driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+#' }
 #' @export
 feature_bbox <- function(sp){
   UseMethod("feature_bbox")
@@ -140,8 +144,9 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
 #'
 #' create metadata list from sp object
 #'
-#' @param sp an object of class "Spatial"
-#' @param out a character vector of summary values
+#' @param x an object of class "Spatial" or a filepath that can be read in
+#' @param \dots additional parameters passed to methods.
+#' Including \code{out} a character vector of summary values
 #' @return a list according to names in spatial lookup tables for tag conversion
 #' @export
 #' @examples

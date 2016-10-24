@@ -22,8 +22,12 @@ Srs1 <- Polygons(list(Sr1), "s1")
 Sr2 <- Polygon(cbind(c(-105,-105.5,-106,-105.5,-105),c(31.4,32,34,34,32)))
 Srs2 <- Polygons(list(Sr2), "s2")
 p <- SpatialPolygons(list(Srs1, Srs2), proj4string=CRS("+proj=longlat +datum=WGS84"))
-p.df <- SpatialPolygonsDataFrame(Sr = p, data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+p.df <- SpatialPolygonsDataFrame(Sr = p,
+   data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+\dontrun{
 library(rgdal)
-writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile', driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile',
+   driver = 'ESRI Shapefile', overwrite_layer = TRUE)
+}
 }
 

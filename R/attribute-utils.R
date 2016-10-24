@@ -101,7 +101,7 @@ attr_names <- function(x){
 attr_names.character <- function(x){
   stopifnot(file.exists(x))
   class(x) <- get_filetype(x)
-  UseMethod("attr_names", object = x)
+  attr_names(x)
 }
 
 #' @export

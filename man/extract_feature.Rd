@@ -7,9 +7,10 @@
 extract_feature(x, ...)
 }
 \arguments{
-\item{sp}{an object of class "Spatial"}
+\item{x}{an object of class "Spatial" or a filepath that can be read in}
 
-\item{out}{a character vector of summary values}
+\item{\dots}{additional parameters passed to methods.
+Including \code{out} a character vector of summary values}
 }
 \value{
 a list according to names in spatial lookup tables for tag conversion

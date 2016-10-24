@@ -46,6 +46,13 @@ attribute_skeleton.character <- function(object, attr.file = as.attr_file(object
 
 #' @keywords internal
 #' @export
+attribute_skeleton.file <- function(object, attr.file = as.attr_file(object), ...){
+
+  attribute_skeleton.character(object=object, attr.file = attr.file, ...)
+}
+
+#' @keywords internal
+#' @export
 attribute_skeleton.SpatialPointsDataFrame <- function(object, attr.file, ...){
   attrs <- names(object)
   update_attr_table(attrs, attr.file)
