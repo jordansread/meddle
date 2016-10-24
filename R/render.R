@@ -37,7 +37,7 @@ render.character <- function(data, filename, ..., template){
     config.text <- lapply(config.text, eval_content)
     # now evaluate external resources
     for (j in seq_len(length(external.resources))){
-      config.text <- append(config.text, eval_content(external.resources[j]))
+      config.text <- append_list_replace(config.text, eval_content(external.resources[j]))
     }
   }, error = function(err){
     setwd(current.dir)
