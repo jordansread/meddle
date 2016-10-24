@@ -1,0 +1,33 @@
+# ----dataset details----
+metadata-person: Alison P. Appling
+metadata-phone: 608 821-3927
+metadata-email: aappling@usgs.gov
+distro-person: Alison P. Appling
+liability-statement: >-
+  Unless otherwise stated, all data, metadata and related materials are considered to satisfy the quality standards relative to the purpose for which the data were collected.
+  Although these data and associated metadata have been reviewed for accuracy and completeness and approved for release by the U.S. Geological Survey (USGS),
+  no warranty expressed or implied is made regarding the display or utility of the data on any other system or for general or scientific purposes, nor shall
+  the act of distribution constitute any such warranty.
+
+attributes:
+  -
+    attr-label: DateTime
+    attr-def: The date and time of day
+    attr-defs: Pope Gregory XIII
+    data-min: SCRIPT 2007-01-01 00:00:00
+    data-max: SCRIPT 2016-03-16 00:00:00
+    data-units: time
+  -
+    attr-label: site_id
+    attr-def: the site location identifier
+    attr-defs: NWIS
+    data-min: not applicable
+    data-max: not applicable
+    data-units: not applicable
+  -
+    attr-label: doobs
+    attr-def: dissolved oxygen observation
+    attr-defs: NWIS
+    data-min: SCRIPT 0
+    data-max: SCRIPT 40
+    data-units: mg L^1
