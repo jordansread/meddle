@@ -65,6 +65,8 @@ render.list <- function(data, filename, ..., template){
     return(output)
   } else {
     cat(output, file = filename)
+    xml <- xml2::read_xml(filename)
+    xml2::write_xml(xml, filename)
   }
 
 }

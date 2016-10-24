@@ -28,6 +28,21 @@ append_list_replace <- function(list0, ...){
 }
 
 
+#' evaluate content blocked within r code
+#'
+#' helper function for evaluating code from text
+#'
+#' @param x any R object
+#' @return the return value from evaluating the function, or the raw input (unaltered)
+#' if there is no function to be evaluated.
+#' @details use "`r mean(c(2,3))`" to specify evaluating the \code{mean(c(2,3))}.
+#' If this syntax is not used, the values are passed through unaltered.
+#' @examples
+#' eval_content("`r mean(c(2,3))`")
+#' eval_content("`mean(c(2,3))`")
+#' eval_content(list(c=3))
+#' @keywords internal
+#' @export
 eval_content <- function(x){
   if (grepl('`r ',  x[1])){
     if (length(x) > 1)
