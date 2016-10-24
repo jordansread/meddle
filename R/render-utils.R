@@ -27,9 +27,6 @@ append_list_replace <- function(list0, ...){
   return(list.out)
 }
 
-eval_external <- function(x){
-
-}
 
 eval_content <- function(x){
   if (grepl('`r ',  x[1])){
