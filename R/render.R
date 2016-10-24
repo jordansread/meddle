@@ -52,14 +52,3 @@ render.list <- function(data, filename, ..., template){
 
 }
 
-eval_content <- function(x){
-  if (grepl('`r ',  x[1])){
-    if (length(x) > 1)
-      stop('arrays not supported for eval', call. = FALSE)
-    exp <- gsub("`r (.*?)`", "\\1", x)
-    data = eval(parse(text=as.character(exp)))
-  } else {
-    data <- x
-  }
-  return(data)
-}

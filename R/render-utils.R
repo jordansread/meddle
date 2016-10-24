@@ -27,6 +27,18 @@ append_list_replace <- function(list0, ...){
   return(list.out)
 }
 
+eval_content <- function(x){
+  if (grepl('`r ',  x[1])){
+    if (length(x) > 1)
+      stop('arrays not supported for evaluation', call. = FALSE)
+    exp <- gsub("`r (.*?)`", "\\1", x)
+    data <- eval(parse(text=as.character(exp)))
+  } else {
+    data <- x
+  }
+  return(data)
+}
+
 
 
 as.template <- function(x){
@@ -38,5 +50,5 @@ as.template <- function(x){
 }
 
 as.template.connection <- function(x){
-
+  stop('not implemented')
 }
