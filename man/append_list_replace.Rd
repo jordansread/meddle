@@ -4,7 +4,7 @@
 \alias{append_list_replace}
 \title{append replace list}
 \usage{
-append_list_replace(list0, ...)
+append_list_replace(list0, ..., replace.empty = TRUE)
 }
 \arguments{
 \item{list0}{the list to append to (w/ replacement)}
