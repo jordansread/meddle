@@ -9,7 +9,7 @@
 #' order matters for ... arguments. The LAST argument will overwrite anything that proceeds it.
 #' That means that \code{append_list_replace(list(dog='Larry'), list(dog='Cindy'))}
 #' will use \code{dog='Cindy'}.
-append_list_replace <- function(list0, ..., replace.empty=TRUE){
+append_list_replace <- function(list0, ...){
   new.lists <- c(...)
   if (length(new.lists) < 1){
     return(list0)
@@ -20,10 +20,6 @@ append_list_replace <- function(list0, ..., replace.empty=TRUE){
         stop('currently, unnamed lists are not supported')
       }
       tmp.list <- new.lists[i]
-      if (replace.empty){
-        empty.noreplace <- is.na(unlist(tmp.list)) & names(tmp.list) %in% names(list.out)
-        tmp.list[empty.noreplace] <- NULL
-      }
       list.out[names(list.out) %in% names(tmp.list)] <- NULL
       list.out <- append(list.out, tmp.list)
     }
