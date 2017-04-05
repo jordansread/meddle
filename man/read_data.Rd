@@ -14,4 +14,3 @@ read_data(filename, ...)
 \description{
 read in data from filepath into R
 }
-

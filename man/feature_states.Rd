@@ -25,4 +25,3 @@ Srs1 = Polygons(list(Sr1), "s1")
 p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
 feature_states(p)
 }
-

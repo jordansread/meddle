@@ -21,4 +21,3 @@ Fields in \code{old.attrs} that don't appear in \code{new.attrs} will be dropped
 Likewise, fields in \code{new.attrs} but not in \code{old.attrs} will retain
 the values in \code{new.attrs}.
 }
-

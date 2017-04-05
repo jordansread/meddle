@@ -17,10 +17,10 @@ render(data, filename, ...)
 
 \item{filename}{name of file to write metadata to}
 
-\item{template}{a character or filepath}
-
 \item{\dots}{additional lists to include or other arguments passed to methods
 (e.g., \code{template="metadata.mustache"})}
+
+\item{template}{a character or filepath}
 }
 \description{
 create metadata file from input data or yaml file
@@ -34,6 +34,7 @@ template can be missing, a filepath to a *.mustache file, or a string
 
 \item \code{list}: render text to a file from a list
 }}
+
 \examples{
 render(list('dogname'='fred','catname'='midred'),
    filename=NULL, list('dogname'='betty'), template="my dog's name is: {{dogname}}")
@@ -43,4 +44,3 @@ render(list('dogname'='fred','catname'='midred'),
 \code{\link[whisker]{whisker.render}}
 }
 \keyword{internal}
-

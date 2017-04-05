@@ -22,4 +22,3 @@ order matters for ... arguments. The LAST argument will overwrite anything that 
 That means that \code{append_list_replace(list(dog='Larry'), list(dog='Cindy'))}
 will use \code{dog='Cindy'}.
 }
-
