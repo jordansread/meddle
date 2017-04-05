@@ -34,6 +34,18 @@ read_data.shapedir <- function(filename, ...){
 
 #' @export
 #' @keywords internal
+read_data.gzfile <- function(filename, ...){
+  file.con <- gzfile(filename)
+  if (grepl('tsv', filename)){
+    read_data.tsvfile(file.con, ...)
+  } else if (grepl('csv', filename)){
+    read_data.csvfile(file.con, ...)
+  } else {
+    stop('type ', filename, ' not recognized by read_data', call. = FALSE)
+  }
+}
+#' @export
+#' @keywords internal
 read_data.csvfile <- function(filename, ...){
   read.table(filename, header=TRUE, sep=',', stringsAsFactors = FALSE, ...)
 }
