@@ -43,6 +43,7 @@ read_data.gzfile <- function(filename, ...){
   } else {
     stop('type ', filename, ' not recognized by read_data', call. = FALSE)
   }
+  close(file.con)
 }
 #' @export
 #' @keywords internal
