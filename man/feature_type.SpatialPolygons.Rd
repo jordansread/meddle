@@ -18,4 +18,3 @@ Extract the FGDC feature type from an \code{sp} object
 only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
 }
 \keyword{internal}
-

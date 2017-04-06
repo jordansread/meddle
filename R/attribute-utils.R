@@ -104,16 +104,34 @@ attr_names.character <- function(x){
   attr_names(x)
 }
 
+split_normalize_headers <- function(x, sep){
+  out <- strsplit(readLines(x, n = 1L), sep)[[1]]
+  gsub('\"', "", out)
+}
+
+#' @export
+#' @keywords internal
+attr_names.gzfile <- function(x){
+  if (grepl('tsv', x)){
+    sep <- '[\t]'
+  } else if (grepl('csv', x)){
+    sep <- '[,]'
+  } else {
+    stop('type ', x, ' not recognized by read_data', call. = FALSE)
+  }
+  split_normalize_headers(gzfile(x), sep=sep)
+}
+
 #' @export
 #' @keywords internal
 attr_names.csvfile <- function(x){
-  strsplit(readLines(x, n = 1L), '[,]')[[1]]
+  split_normalize_headers(x, sep = '[,]')
 }
 
 #' @export
 #' @keywords internal
 attr_names.tsvfile <- function(x){
-  strsplit(readLines(x, n = 1L), '[\t]')[[1]]
+  split_normalize_headers(x, sep = '[\t]')
 }
 
 #' @export

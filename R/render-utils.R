@@ -19,8 +19,9 @@ append_list_replace <- function(list0, ...){
       if (is.null(names(new.lists[i]))){
         stop('currently, unnamed lists are not supported')
       }
-      list.out[names(list.out) %in% names(new.lists[i])] <- NULL
-      list.out <- append(list.out, new.lists[i])
+      tmp.list <- new.lists[i]
+      list.out[names(list.out) %in% names(tmp.list)] <- NULL
+      list.out <- append(list.out, tmp.list)
     }
   }
 

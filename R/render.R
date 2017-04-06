@@ -55,7 +55,7 @@ render.character <- function(data, filename, ..., template){
 #' @importFrom utils packageName
 render.list <- function(data, filename, ..., template){
   if (missing(template)){
-    template <- system.file(package=packageName(),'extdata', "FGDC_template.mustache")
+    template <- system.file(package=packageName(), 'extdata', "FGDC_template.mustache")
   }
 
   text <- append_list_replace(data, ...)

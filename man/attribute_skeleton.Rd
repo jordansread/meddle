@@ -28,4 +28,3 @@ attribute_skeleton(system.file(package='meddle','extdata','example_shapefile'), 
 read_attr_file(attr.file)
 }
 }
-

@@ -15,4 +15,3 @@
 Tally the number of features in a \code{sp} object
 }
 \keyword{internal}
-

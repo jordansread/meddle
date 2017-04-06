@@ -23,4 +23,3 @@ attr_names(system.file(package='meddle','extdata','example_shapefile'))
 sp <- read_data(system.file(package='meddle','extdata','example_shapefile'))
 attr_names(sp)
 }
-

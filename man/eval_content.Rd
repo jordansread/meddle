@@ -26,4 +26,3 @@ eval_content("`mean(c(2,3))`")
 eval_content(list(c=3))
 }
 \keyword{internal}
-

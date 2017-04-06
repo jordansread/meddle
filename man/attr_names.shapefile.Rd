@@ -20,4 +20,3 @@ Vector of shapefile file names (the \code{filename} arguments) must include a *.
 This function only reads the shapefile's dbf, so it skips reading in the geometry.
 }
 \keyword{internal}
-

@@ -16,4 +16,3 @@ a list of attributes and values for rendering
 formats an attribute table into a list appropriate for metadata rendering
 }
 \keyword{internal}
-

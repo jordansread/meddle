@@ -30,4 +30,3 @@ writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile',
    driver = 'ESRI Shapefile', overwrite_layer = TRUE)
 }
 }
-
