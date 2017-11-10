@@ -49,7 +49,7 @@ render.character <- function(data, filename, ..., template){
   if(missing(template)) {
     render(data = config.text, filename = filename, ...)
   } else {
-    render(data = config.text, filename = filename, ..., template)
+    render(data = config.text, filename = filename, ..., template=template)
   }
 }
 
