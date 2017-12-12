@@ -20,13 +20,11 @@ render(data, filename, ...)
 \item{\dots}{additional lists to include or other arguments passed to methods
 (e.g., \code{template="metadata.mustache"})}
 
-\item{template}{a character or filepath}
+\item{template}{character template or a filepath to a template to user in
+rendering the metadata. If missing, a default template will be used.}
 }
 \description{
 create metadata file from input data or yaml file
-}
-\details{
-template can be missing, a filepath to a *.mustache file, or a string
 }
 \section{Methods (by class)}{
 \itemize{

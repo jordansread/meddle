@@ -2,13 +2,14 @@
 #' render xml from data and template
 #'
 #' create metadata file from input data or yaml file
-#'
+#' 
+#' @md
 #' @param data filepath or list
 #' @param filename name of file to write metadata to
 #' @param \dots additional lists to include or other arguments passed to methods
-#' (e.g., \code{template="metadata.mustache"})
-#' @param template a character or filepath
-#' @details template can be missing, a filepath to a *.mustache file, or a string
+#'   (e.g., \code{template="metadata.mustache"})
+#' @param template character template or a filepath to a template to user in
+#'   rendering the metadata. If missing, a default template will be used.
 #' @keywords internal
 #' @examples
 #' render(list('dogname'='fred','catname'='midred'),
@@ -45,7 +46,11 @@ render.character <- function(data, filename, ..., template){
   })
   setwd(current.dir)
 
-  render(data = config.text, filename = filename, ...)
+  if(missing(template)) {
+    render(data = config.text, filename = filename, ...)
+  } else {
+    render(data = config.text, filename = filename, ..., template=template)
+  }
 }
 
 
