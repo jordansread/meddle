@@ -1,6 +1,6 @@
 Package: meddle
 Title: Metadata generation for data releases
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: c(person("Jordan", "Read", email = "jread@usgs.gov", role = c("aut", "cre")),
   person("Aaron", "Berdanier", email = "aaron.berdanier@duke.edu", role = c("aut")),
   person("Jordan", "Walker", email = "jiwalker@usgs.gov", role = c("aut")))
