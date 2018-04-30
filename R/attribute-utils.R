@@ -52,9 +52,9 @@ merge_attr_table <- function(new.attrs, old.attrs){
 write_attr_file <- function(x, file){
   ext <- get_filetype(file)
   if (ext == 'csvfile'){
-    write.table(x, file, sep=',', row.names = FALSE, quote=FALSE)
+    write.table(x, file, sep=',', row.names = FALSE, quote=TRUE)
   } else if (ext == 'tsvfile'){
-    write.table(x, file, sep='\t', row.names = FALSE, quote=FALSE)
+    write.table(x, file, sep='\t', row.names = FALSE, quote=TRUE)
   } else stop(file, ' type not supported for write_attr_file', call. = FALSE)
 
 }
