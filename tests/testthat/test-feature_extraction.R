@@ -27,6 +27,7 @@ test_that("feature bounding boxes are correct", {
   expect_equal(bb.poly, meddle:::feature_bbox(s.poly.df))
   expect_equal(bb.point, meddle:::feature_bbox(s.point))
   expect_true(all(names(bb.point) %in% c("wbbox", "ebbox", "nbbox", "sbbox")))
+  expect_true(bb.poly$nbbox > bb.poly$sbbox)
   expect_equal(bb.point$wbbox, bb.point$ebbox)
   expect_false(bb.poly$wbbox == bb.poly$ebbox)
   expect_equal(meddle:::feature_bbox(s.points)$wbbox, -154)

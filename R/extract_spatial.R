@@ -32,7 +32,7 @@ feature_bbox.Spatial <- function(sp){
   }
   bounds <- bbox(sp)
   return(list(wbbox=bounds[1,1], ebbox=bounds[1,2],
-              nbbox=bounds[2,1], sbbox=bounds[2,2]))
+              nbbox=bounds[2,2], sbbox=bounds[2,1]))
 }
 
 
