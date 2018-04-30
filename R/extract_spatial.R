@@ -115,11 +115,14 @@ get_states <- function(){
   us_48$names <- paste0("USA:", us_48$names)
   us_hi <- map("world", "USA:Hawaii", fill=TRUE, plot=FALSE)
   us_ak <- map("world", "USA:Alaska", fill=TRUE, plot=FALSE)
+  us_pr <- map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE)
+  us_pr$x <- us_pr$x-360 # units for PR need a latitude shift
+  us_pr$names <- rep("Puerto Rico:Puerto Rico", length(us_pr$names))
   usa <- Reduce(function(m1,m2){
    list(x=c(m1$x, NA, m2$x),
       y=c(m1$y, NA, m2$y),
       names=c(m1$names, m2$names))
-  }, list(us_48,us_ak,us_hi))
+  }, list(us_48,us_ak,us_hi,us_pr))
   IDs <- sapply(strsplit(usa$names, ":"), function(x) x[2])
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
   return(usa)

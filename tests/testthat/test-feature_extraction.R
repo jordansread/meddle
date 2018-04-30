@@ -12,6 +12,7 @@ s.point.df <- sp::SpatialPointsDataFrame(cbind(-89,42), proj4string=sp::CRS("+pr
 
 s.points <- sp::SpatialPoints(cbind(c(-89, -108, -154),c(42, 33, 65.58)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
 
+pr.points <- sp::SpatialPoints(cbind(c(-66.562926, -65.483519, -67.897202),c(18.3, 18.12, 18.098)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
 
 test_that("feature types are correct", {
   expect_equal(meddle:::feature_type(s.poly)[['feature-type']], "G-polygon")
@@ -46,4 +47,5 @@ test_that("feature overlap with states are correct", {
   expect_equal(state.poly, c("Illinois", "Wisconsin"))
   expect_equal(state.point, c("Illinois"))
   expect_equal(state.points, c("Alaska", "Illinois", "New Mexico"))
+  expect_equal(meddle:::feature_states(pr.points)$states[[1]][['state-name']], "Puerto Rico")
 })
