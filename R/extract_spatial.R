@@ -128,7 +128,8 @@ get_states <- function(){
   return(usa)
 }
 
-#' @importFrom rgeos gOverlaps gContains gSimplify
+#' @importFrom rgeos gContains
+#' @importFrom sp over
 overlaps <- function(sp0, sp1){
   UseMethod("overlaps")
 }
@@ -139,8 +140,7 @@ overlaps.SpatialPoints <- function(sp0, sp1){
 }
 
 overlaps.SpatialPolygons <- function(sp0, sp1){
-  overlaps <- gOverlaps(sp1, gSimplify(sp0, tol=0.001), byid = TRUE)
-  unname(colSums(overlaps) > 0)
+  unname(!is.na(over(sp1, sp0)))
 }
 
 #' extract and summarize spatial data
