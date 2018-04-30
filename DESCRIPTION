@@ -23,7 +23,6 @@ Imports:
     rgdal,
     rgeos,
     maptools,
-    mapdata,
     tools,
     utils,
     methods,
