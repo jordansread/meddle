@@ -32,7 +32,7 @@ feature_bbox.Spatial <- function(sp){
   }
   bounds <- bbox(sp)
   return(list(wbbox=bounds[1,1], ebbox=bounds[1,2],
-              nbbox=bounds[2,1], sbbox=bounds[2,2]))
+              nbbox=bounds[2,2], sbbox=bounds[2,1]))
 }
 
 
@@ -115,17 +115,21 @@ get_states <- function(){
   us_48$names <- paste0("USA:", us_48$names)
   us_hi <- map("world", "USA:Hawaii", fill=TRUE, plot=FALSE)
   us_ak <- map("world", "USA:Alaska", fill=TRUE, plot=FALSE)
+  us_pr <- map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE)
+  us_pr$x <- us_pr$x-360 # units for PR need a latitude shift
+  us_pr$names <- rep("Puerto Rico:Puerto Rico", length(us_pr$names))
   usa <- Reduce(function(m1,m2){
    list(x=c(m1$x, NA, m2$x),
       y=c(m1$y, NA, m2$y),
       names=c(m1$names, m2$names))
-  }, list(us_48,us_ak,us_hi))
+  }, list(us_48,us_ak,us_hi,us_pr))
   IDs <- sapply(strsplit(usa$names, ":"), function(x) x[2])
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
   return(usa)
 }
 
-#' @importFrom rgeos gOverlaps gContains gSimplify
+#' @importFrom rgeos gContains
+#' @importFrom sp over
 overlaps <- function(sp0, sp1){
   UseMethod("overlaps")
 }
@@ -136,8 +140,7 @@ overlaps.SpatialPoints <- function(sp0, sp1){
 }
 
 overlaps.SpatialPolygons <- function(sp0, sp1){
-  overlaps <- gOverlaps(sp1, gSimplify(sp0, tol=0.001), byid = TRUE)
-  unname(colSums(overlaps) > 0)
+  unname(!is.na(over(sp1, sp0)))
 }
 
 #' extract and summarize spatial data
