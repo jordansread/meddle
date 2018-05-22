@@ -143,6 +143,10 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
   unname(!is.na(over(sp1, sp0)))
 }
 
+overlaps.SpatialPolygonsDataFrame <- function(sp0, sp1){
+  unname(!is.na(over(sp1, sp0)))[, 1]
+}
+
 #' extract and summarize spatial data
 #'
 #' create metadata list from sp object
