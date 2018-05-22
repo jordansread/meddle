@@ -124,7 +124,7 @@ get_states <- function(){
       names=c(m1$names, m2$names))
   }, list(us_48,us_ak,us_hi,us_pr))
   IDs <- sapply(strsplit(usa$names, ":"), function(x) x[2])
-  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
+  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   return(usa)
 }
 
