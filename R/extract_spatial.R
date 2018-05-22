@@ -11,7 +11,8 @@
 #' Srs1 <- Polygons(list(Sr1), "s1")
 #' Sr2 <- Polygon(cbind(c(-105,-105.5,-106,-105.5,-105),c(31.4,32,34,34,32)))
 #' Srs2 <- Polygons(list(Sr2), "s2")
-#' p <- SpatialPolygons(list(Srs1, Srs2), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' p <- SpatialPolygons(list(Srs1, Srs2), proj4string=CRS("+init=epsg:4326 +proj=longlat 
+#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' p.df <- SpatialPolygonsDataFrame(Sr = p,
 #'    data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
 #' \dontrun{
@@ -81,12 +82,14 @@ feature_count.Spatial <- function(sp){
 #' @export
 #' @examples
 #' library(sp)
-#' p = SpatialPoints(cbind(-89,42), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' p = SpatialPoints(cbind(-89,42), proj4string=CRS("+init=epsg:4326 +proj=longlat 
+#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' feature_states(p)
 #'
 #' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
 #' Srs1 = Polygons(list(Sr1), "s1")
-#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
+#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' feature_states(p)
 feature_states <- function(sp){
   UseMethod("feature_states")
@@ -124,7 +127,8 @@ get_states <- function(){
       names=c(m1$names, m2$names))
   }, list(us_48,us_ak,us_hi,us_pr))
   IDs <- sapply(strsplit(usa$names, ":"), function(x) x[2])
-  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+proj=longlat +datum=WGS84"))
+  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+init=epsg:4326 +proj=longlat 
+                                                           +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   return(usa)
 }
 
@@ -143,6 +147,10 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
   unname(!is.na(over(sp1, sp0)))
 }
 
+overlaps.SpatialPolygonsDataFrame <- function(sp0, sp1){
+  unname(!is.na(over(sp1, sp0)))[, 1]
+}
+
 #' extract and summarize spatial data
 #'
 #' create metadata list from sp object
@@ -156,7 +164,8 @@ overlaps.SpatialPolygons <- function(sp0, sp1){
 #' library(sp)
 #' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
 #' Srs1 = Polygons(list(Sr1), "s1")
-#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
+#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' extract_feature(p)
 extract_feature <- function(x, ...){
   UseMethod("extract_feature")

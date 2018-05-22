@@ -167,7 +167,8 @@ attr_names.data.frame <- function(x){
 #' @importFrom foreign read.dbf
 #' @export
 #' @keywords internal
-attr_names.shapefile <- function(filename){
+attr_names.shapefile <- function(x){
+  filename <- x
   dbf.file <- filename[grepl(pattern = '.dbf', x = filename)]
   data <- foreign::read.dbf(dbf.file)
   return(names(data))

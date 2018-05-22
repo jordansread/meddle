@@ -22,6 +22,7 @@ create metadata list from sp object
 library(sp)
 Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
 Srs1 = Polygons(list(Sr1), "s1")
-p = SpatialPolygons(list(Srs1), proj4string=CRS("+proj=longlat +datum=WGS84"))
+p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
++datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 extract_feature(p)
 }

@@ -2,22 +2,22 @@ context("testing feature extraction functions")
 
 Sr1 = sp::Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
 Srs1 = sp::Polygons(list(Sr1), "s1")
-s.poly = sp::SpatialPolygons(list(Srs1), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+s.poly = sp::SpatialPolygons(list(Srs1), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 df <- data.frame('name','poly1')
 row.names(df) <- row.names(s.poly)
 s.poly.df <- sp::SpatialPolygonsDataFrame(s.poly, data = df)
 
-s.point <- sp::SpatialPoints(cbind(-89,42), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
-s.point.df <- sp::SpatialPointsDataFrame(cbind(-89,42), proj4string=sp::CRS("+proj=longlat +datum=WGS84"), data = data.frame('name','point1'))
+s.point <- sp::SpatialPoints(cbind(-89,42), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
+s.point.df <- sp::SpatialPointsDataFrame(cbind(-89,42), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"), data = data.frame('name','point1'))
 
-s.points <- sp::SpatialPoints(cbind(c(-89, -108, -154),c(42, 33, 65.58)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+s.points <- sp::SpatialPoints(cbind(c(-89, -108, -154),c(42, 33, 65.58)), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 
-pr.points <- sp::SpatialPoints(cbind(c(-66.562926, -65.483519, -67.897202),c(18.3, 18.12, 18.098)), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+pr.points <- sp::SpatialPoints(cbind(c(-66.562926, -65.483519, -67.897202),c(18.3, 18.12, 18.098)), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 
 Sr2 = sp::Polygon(cbind(c(-148.90062769206,-148.920356797163,-148.945765922973,-148.944816863298,-148.94381443877,-148.90062769206),
                         c(60.3686995983039,60.3673520719981,60.3659310258993,60.3827950517552,60.4178583481427,60.3686995983039)))
 Srs2 = sp::Polygons(list(Sr2), "s2")
-poly2 = sp::SpatialPolygons(list(Srs1, Srs2), proj4string=sp::CRS("+proj=longlat +datum=WGS84"))
+poly2 = sp::SpatialPolygons(list(Srs1, Srs2), proj4string=sp::CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 df <- data.frame('name'=c("IL.poly","AK.poly"))
 row.names(df) <- row.names(poly2)
 ilak.catchment <- sp::SpatialPolygonsDataFrame(poly2, data = df)
