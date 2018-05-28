@@ -4,7 +4,7 @@
 \alias{attr_names.shapefile}
 \title{get attributes from a shapefile}
 \usage{
-\method{attr_names}{shapefile}(filename)
+\method{attr_names}{shapefile}(x)
 }
 \arguments{
 \item{filename}{a character vector of shapefile file names}
