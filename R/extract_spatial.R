@@ -101,8 +101,15 @@ feature_states.Spatial <- function(sp){
   states <- get_states()
   state.overlap <- overlaps(sp, states)
   as.state_name <- function(x){
-    s <- strsplit(x, " ")[[1]]
-    paste0(toupper(substring(s, 1,1)), substring(s, 2), collapse=" ")
+    s <- strsplit(tolower(x), " ")
+    s_cap <- lapply(s, function(words) {
+      ifelse(
+        words == 'of',
+        words,
+        paste0(toupper(substring(words, 1,1)), substring(words, 2))
+      )
+    })
+    sapply(s_cap, paste0, collapse=" ")
   }
   state.names <- unname(sapply(names(states)[state.overlap], as.state_name))
   feature.states <- lapply(sort(state.names), function(x) list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x)))
