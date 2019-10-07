@@ -3,7 +3,7 @@
 #' merge multiple lists with replacement
 #'
 #' @param list0 the list to append to (w/ replacement)
-#' @param \dots additional lists to add to or replace elements in list0
+#' @param \dots additional lists or .yaml filepaths to add to or replace elements in list0
 #' @return the merged list with later elements in \dots replacing earlier ones
 #' @details
 #' order matters for ... arguments. The LAST argument will overwrite anything that proceeds it.
@@ -16,10 +16,22 @@ append_list_replace <- function(list0, ...){
   } else {
     list.out <- list0
     for (i in 1:length(new.lists)){
+      
+      obj <- new.lists[i]
+      
+      if (inherits(obj, 'character')){
+        # assume it is a file path
+        stopifnot(file.exists(obj))
+        tmp.list <- yaml.load_file(obj)
+      } else if (inherits(obj, 'list')){
+        tmp.list <- new.lists[i]
+      } else {
+        stop('class "', class(obj), '" not supported')
+      }
       if (is.null(names(new.lists[i]))){
         stop('currently, unnamed lists are not supported')
       }
-      tmp.list <- new.lists[i]
+      
       list.out[names(list.out) %in% names(tmp.list)] <- NULL
       list.out <- append(list.out, tmp.list)
     }
