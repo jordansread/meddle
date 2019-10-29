@@ -36,6 +36,23 @@ feature_bbox.Spatial <- function(sp){
               nbbox=bounds[2,2], sbbox=bounds[2,1]))
 }
 
+#' @keywords internal
+#' @export
+feature_bbox.sf <- function(sp){
+  feature_bbox(sf::st_geometry(sp))
+}
+
+#' @importFrom sf st_crs st_bbox
+#' @keywords internal
+#' @export
+feature_bbox.sfc <- function(sp){
+  if (!grepl(pattern = 'WGS84', sf::st_crs(sp)$proj4string)){
+    stop('sp must be in WGS84 to calculate a valid bounding box')
+  }
+  bounds <- sf::st_bbox(sp)
+  return(list(wbbox=bounds[['xmin']], ebbox=bounds[['xmax']],
+              nbbox=bounds[['ymax']], sbbox=bounds[['ymin']]))
+}
 
 feature_type <- function(sp){
   UseMethod("feature_type")
@@ -57,6 +74,11 @@ feature_type.SpatialPolygons <- function(sp){
 feature_type.SpatialPoints <- function(sp){
   list('feature-type'="Point")
 }
+#' @keywords internal
+#' @export
+feature_type.sfc_MULTIPOLYGON <- function(sp){
+  list('feature-type'="G-polygon")
+}
 
 feature_count <- function(sp){
   UseMethod("feature_count")
@@ -70,6 +92,11 @@ feature_count <- function(sp){
 #' @keywords internal
 #' @export
 feature_count.Spatial <- function(sp){
+  list('feature-count'=length(sp))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_MULTIPOLYGON <- function(sp){
   list('feature-count'=length(sp))
 }
 
@@ -116,6 +143,14 @@ feature_states.Spatial <- function(sp){
   return(list(states = feature.states))
 }
 
+#' @keywords internal
+#' @export
+#' @importFrom sf as_Spatial
+feature_states.sfc <- function(sp){
+  sp_obj <- sf::as_Spatial(sp)
+  sp <- sp::spTransform(sp_obj, CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
+  feature_states(sp)
+}
 
 #' @importFrom maps map
 #' @importFrom maptools map2SpatialPolygons
@@ -193,4 +228,22 @@ extract_feature.Spatial <- function(x, out = c('bbox', 'type', 'count', 'states'
     feature <- append(feature, do.call(paste0('feature_', fun), list(sp=x)))
   }
   return(feature)
+}
+
+#' @keywords internal
+#' @export
+extract_feature.sfc <- function(x, out = c('bbox', 'type', 'count', 'states')){
+  feature <- list()
+  for (fun in out){
+    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=x)))
+  }
+  return(feature)
+}
+
+#' @importFrom sf st_geometry
+#' @keywords internal
+#' @export
+extract_feature.sf <- function(x, out = c('bbox', 'type', 'count', 'states')){
+  x <- sf::st_geometry(x)
+  extract_feature(x, out = out)
 }
