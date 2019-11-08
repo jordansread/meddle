@@ -40,7 +40,7 @@
           <enddate>{{end-date}}</enddate>
         </rngdates>
       </timeinfo>
-      <current>model estimates</current>
+      <current>See publication date</current>
     </timeperd>
     <status>
       <progress>Complete</progress>
@@ -172,7 +172,7 @@
   </dataqual>
   <spdoinfo>
     <indspref>{{indirect-spatial}}</indspref>
-    <direct>Point</direct>
+    <direct>{{feature-type}}</direct>
     <ptvctinf>
       <sdtsterm>
         <sdtstype>{{feature-type}}</sdtstype>
@@ -188,8 +188,8 @@
         <geogunit>Decimal degrees</geogunit>
       </geograph>
       <geodetic>
-        <horizdn>North American Datum of 1983</horizdn>
-        <ellips>Geodetic Reference System 80</ellips>
+        <horizdn>WGS84</horizdn>
+        <ellips>WGS_1984</ellips>
         <semiaxis>6378137.0</semiaxis>
         <denflat>298.257</denflat>
       </geodetic>
@@ -200,7 +200,7 @@
       <enttyp>
         <enttypl>{{data-name}}</enttypl>
         <enttypd>{{data-description}}</enttypd>
-        <enttypds>Producer Defined</enttypds>
+        <enttypds>U.S. Geological Survey</enttypds>
       </enttyp>
       {{#attributes}}<attr>
         <attrlabl>{{attr-label}}</attrlabl>
@@ -278,7 +278,7 @@
         <cntemail>{{metadata-email}}</cntemail>
       </cntinfo>
     </metc>
-    <metstdn>FGDC Biological Data Profile of the Content Standard for Digital Geospatial Metadata</metstdn>
-    <metstdv>FGDC-STD-001.1-1999</metstdv>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-001-1998</metstdv>
   </metainfo>
 </metadata>
