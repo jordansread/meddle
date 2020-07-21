@@ -7,6 +7,7 @@
 #' create a string from sessionInfo() that can be used 
 #' for `Native Data Set Environment`
 #' @export
+#' @importFrom utils sessionInfo
 environment_metadata <- function(){
   
   sess_list <- sessionInfo()

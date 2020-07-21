@@ -1,7 +1,7 @@
 Package: meddle
 Title: Metadata generation for data releases
-Version: 0.0.7
-Date: 2018-05-27
+Version: 0.0.11
+Date: 2019-11-12
 Authors@R: c(person("Jordan", "Read", email = "jread@usgs.gov", role = c("aut", "cre")),
   person("Aaron", "Berdanier", email = "aaron.berdanier@duke.edu", role = c("aut")),
   person("Jordan", "Walker", email = "jiwalker@usgs.gov", role = c("aut")),
@@ -19,6 +19,7 @@ Imports:
     yaml,
     whisker,
     sp,
+    sf,
     xml2 (>= 1.0.0),
     rgdal,
     rgeos,
@@ -36,4 +37,4 @@ VignetteBuilder: knitr
 BuildVignettes: true
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

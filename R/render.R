@@ -6,7 +6,7 @@
 #' @md
 #' @param data filepath or list
 #' @param filename name of file to write metadata to
-#' @param \dots additional lists to include or other arguments passed to methods
+#' @param \dots additional lists or yaml filepaths to include or other arguments passed to methods
 #'   (e.g., \code{template="metadata.mustache"})
 #' @param template character template or a filepath to a template to user in
 #'   rendering the metadata. If missing, a default template will be used.

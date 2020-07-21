@@ -9,6 +9,8 @@ read_data <- function(filename, ...){
   UseMethod("read_data")
 }
 
+#' @param filename a filepath to an existing file
+#' @param \dots ignored
 #' @export
 #' @keywords internal
 read_data.character <- function(filename, ...){
@@ -45,11 +47,13 @@ read_data.gzfile <- function(filename, ...){
   }
   close(file.con)
 }
+
 #' @export
 #' @keywords internal
 read_data.csvfile <- function(filename, ...){
   read.table(filename, header=TRUE, sep=',', stringsAsFactors = FALSE, ...)
 }
+
 
 #' @export
 #' @keywords internal

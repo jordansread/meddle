@@ -17,7 +17,7 @@ render(data, filename, ...)
 
 \item{filename}{name of file to write metadata to}
 
-\item{\dots}{additional lists to include or other arguments passed to methods
+\item{\dots}{additional lists or yaml filepaths to include or other arguments passed to methods
 (e.g., \code{template="metadata.mustache"})}
 
 \item{template}{character template or a filepath to a template to user in
