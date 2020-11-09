@@ -61,23 +61,24 @@ feature_type <- function(sp){
 #'
 #' Extract the FGDC feature type from an \code{sp} object
 #'
-#' @param sp a spatial object from the \code{sp} package
-#' @param return a list with \code{feature-type} field
+#' @param sp a spatial object from the \code{sp} package 
+#' (partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)
+#' @param return a list with \code{feature-ref} and \code{feature-type} fields
 #' @details only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
 #' @keywords internal
 #' @export
 feature_type.SpatialPolygons <- function(sp){
-  list('feature-type'="G-polygon")
+  list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
 #' @keywords internal
 #' @export
 feature_type.SpatialPoints <- function(sp){
-  list('feature-type'="Point")
+  list('feature-ref'="Point", 'feature-type'="Point")
 }
 #' @keywords internal
 #' @export
 feature_type.sfc_MULTIPOLYGON <- function(sp){
-  list('feature-type'="G-polygon")
+  list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
 
 feature_count <- function(sp){
