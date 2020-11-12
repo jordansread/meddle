@@ -7,9 +7,10 @@
 \method{feature_type}{SpatialPolygons}(sp)
 }
 \arguments{
-\item{sp}{a spatial object from the \code{sp} package}
+\item{sp}{a spatial object from the \code{sp} package 
+(partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)}
 
-\item{return}{a list with \code{feature-type} field}
+\item{return}{a list with \code{feature-ref} and \code{feature-type} fields}
 }
 \description{
 Extract the FGDC feature type from an \code{sp} object
