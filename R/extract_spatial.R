@@ -168,19 +168,19 @@ feature_states.sfc <- function(sp){
 #' @importFrom maptools map2SpatialPolygons
 #' @importFrom sp CRS
 get_states <- function(){
-  us_48 <- map("state", fill=TRUE, plot=FALSE)
-  us_48$names <- paste0("USA:", us_48$names)
-  us_hi <- map("world", "USA:Hawaii", fill=TRUE, plot=FALSE)
-  us_ak <- map("world", "USA:Alaska", fill=TRUE, plot=FALSE)
-  us_pr <- map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE)
-  us_pr$x <- us_pr$x-360 # units for PR need a latitude shift
-  us_pr$names <- rep("Puerto Rico:Puerto Rico", length(us_pr$names))
-  usa <- Reduce(function(m1,m2){
-   list(x=c(m1$x, NA, m2$x),
-      y=c(m1$y, NA, m2$y),
-      names=c(m1$names, m2$names))
-  }, list(us_48,us_ak,us_hi,us_pr))
-  IDs <- sapply(strsplit(usa$names, ":"), function(x) x[2])
+  us_48 <- sf::st_as_sf(map("state", fill=TRUE, plot=FALSE))
+  us_48$names <- paste0("USA:", us_48$ID)
+  us_hi <- sf::st_as_sf(map("world", "USA:Hawaii", fill=TRUE, plot=FALSE))
+  us_hi$names <- rep("USA:Hawaii", nrow(us_hi))
+  us_ak <- sf::st_as_sf(map("world", "USA:Alaska", fill=TRUE, plot=FALSE))
+  us_ak$names <- rep("USA:Alaska", nrow(us_ak))
+  us_pr <- sf::st_as_sf(map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE))
+  us_pr$names <- rep("Puerto Rico:Puerto Rico", nrow(us_pr))
+  sf::st_geometry(us_pr) <- sf::st_geometry(us_pr) - c(360, 0) # units for PR need a latitude shift
+  
+  usa <- rbind(rbind(rbind(us_48, us_ak), us_hi), us_pr)
+
+  usa$ID <- sapply(strsplit(usa$names, ":"), function(x) x[2])
   usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+init=epsg:4326 +proj=longlat 
                                                            +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   return(usa)
