@@ -80,6 +80,12 @@ feature_type.SpatialPoints <- function(sp){
 feature_type.sfc_MULTIPOLYGON <- function(sp){
   list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
+#' @keywords internal
+#' @export
+feature_type.sfc_POLYGON <- function(sp){
+  list('feature-ref'="Vector", 'feature-type'="G-polygon")
+}
+
 
 feature_count <- function(sp){
   UseMethod("feature_count")
@@ -98,6 +104,11 @@ feature_count.Spatial <- function(sp){
 #' @keywords internal
 #' @export
 feature_count.sfc_MULTIPOLYGON <- function(sp){
+  list('feature-count'=length(sp))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_POLYGON <- function(sp){
   list('feature-count'=length(sp))
 }
 
