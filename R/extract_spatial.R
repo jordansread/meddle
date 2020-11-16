@@ -120,25 +120,35 @@ feature_count.sfc_POLYGON <- function(sp){
 #' @return a list with \code{states} field
 #' @export
 #' @examples
-#' library(sp)
-#' p = SpatialPoints(cbind(-89,42), proj4string=CRS("+init=epsg:4326 +proj=longlat 
-#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
-#' feature_states(p)
-#'
-#' Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
-#' Srs1 = Polygons(list(Sr1), "s1")
-#' p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
-#' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
-#' feature_states(p)
-feature_states <- function(sp){
+#' library(sf)
+#' sfc = st_sfc(st_point(c(-89, 45)), st_point(c(-109, 42)), crs = 4326)
+#' sf = st_sf(data.frame(val = c('WI_point', 'WY_point'), geom=sfc))
+#' feature_states(sf)
+feature_states <- function(sf){
   UseMethod("feature_states")
 }
 #' @keywords internal
 #' @export
+
+feature_states.Spatial <- function(sf){
+  
+  stop('need to convert to sfc')
+  
+  
+  
+  return(list(states = feature.states))
+}
+
+#' @keywords internal
+#' @export
+#' @importFrom sf as_Spatial
 #' @importFrom dataRetrieval stateCdLookup
-feature_states.Spatial <- function(sp){
+feature_states.sfc <- function(sf){
+  
   states <- get_states()
-  state.overlap <- overlaps(sp, states)
+  
+  state.overlap <- overlaps(sf, states)
+  
   as.state_name <- function(x){
     s <- strsplit(tolower(x), " ")
     s_cap <- lapply(s, function(words) {
@@ -150,23 +160,23 @@ feature_states.Spatial <- function(sp){
     })
     sapply(s_cap, paste0, collapse=" ")
   }
-  state.names <- unname(sapply(names(states)[state.overlap], as.state_name))
-  feature.states <- lapply(sort(state.names), function(x) list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x)))
+  state.names <- unname(sapply(states$ID[state.overlap], as.state_name))
+  
+  feature.states <- lapply(sort(state.names), function(x){
+    list('state-name'=x, 'state-abbr' = dataRetrieval::stateCdLookup(x))
+  })
   return(list(states = feature.states))
 }
-
 #' @keywords internal
 #' @export
-#' @importFrom sf as_Spatial
-feature_states.sfc <- function(sp){
-  sp_obj <- sf::as_Spatial(sp)
-  sp <- sp::spTransform(sp_obj, CRS("+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
-  feature_states(sp)
+#' @importFrom sf st_geometry
+feature_states.sf <- function(sf){
+  feature_states(st_geometry(sf))
 }
 
 #' @importFrom maps map
 #' @importFrom maptools map2SpatialPolygons
-#' @importFrom sp CRS
+#' @importFrom sf st_crs st_as_sf
 get_states <- function(){
   us_48 <- sf::st_as_sf(map("state", fill=TRUE, plot=FALSE))
   us_48$names <- paste0("USA:", us_48$ID)
@@ -177,18 +187,15 @@ get_states <- function(){
   us_pr <- sf::st_as_sf(map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE))
   us_pr$names <- rep("Puerto Rico:Puerto Rico", nrow(us_pr))
   sf::st_geometry(us_pr) <- sf::st_geometry(us_pr) - c(360, 0) # units for PR need a latitude shift
+  sf::st_crs(us_pr) <- sf::st_crs(4326)
   
   usa <- rbind(rbind(rbind(us_48, us_ak), us_hi), us_pr)
 
-  usa$ID <- sapply(strsplit(usa$names, ":"), function(x) x[2])
-  usa <- map2SpatialPolygons(usa, IDs=IDs, proj4string=CRS("+init=epsg:4326 +proj=longlat 
-                                                           +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
   return(usa)
 }
 
-#' @importFrom rgeos gContains
-#' @importFrom sp over
-overlaps <- function(sp0, sp1){
+#' @importFrom sf st_intersects
+overlaps <- function(sf0, sf1){
   UseMethod("overlaps")
 }
 
@@ -197,6 +204,9 @@ overlaps.SpatialPoints <- function(sp0, sp1){
   unname(colSums(overlaps) > 0)
 }
 
+overlaps.sfc <- function(sf0, sf1){
+  unlist(sf::st_intersects(sf0, sf1))
+}
 overlaps.SpatialPolygons <- function(sp0, sp1){
   unname(!is.na(over(sp1, sp0)))
 }

@@ -18,11 +18,8 @@ Copyright: This software is in the public domain because it contains materials
 Imports:
     yaml,
     whisker,
-    sp,
-    sf,
+    sf (>= 0.9.6),
     xml2 (>= 1.0.0),
-    rgdal,
-    rgeos,
     maptools,
     tools,
     utils,
@@ -37,4 +34,7 @@ VignetteBuilder: knitr
 BuildVignettes: true
 Encoding: UTF-8
 LazyData: true
+SystemRequirements: 
+    PROJ (>= 7.0.0),
+    GDAL (>= 3.0.0)
 RoxygenNote: 7.1.1

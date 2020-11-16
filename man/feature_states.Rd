@@ -4,7 +4,7 @@
 \alias{feature_states}
 \title{get the states that features overlap with}
 \usage{
-feature_states(sp)
+feature_states(sf)
 }
 \arguments{
 \item{sp}{an object of class \code{Spatial}}
@@ -16,14 +16,8 @@ a list with \code{states} field
 summarize the spatial extent of data relative to overlap w/ US states
 }
 \examples{
-library(sp)
-p = SpatialPoints(cbind(-89,42), proj4string=CRS("+init=epsg:4326 +proj=longlat 
-+datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
-feature_states(p)
-
-Sr1 = Polygon(cbind(c(-89,-89.5,-89,-88.5,-89),c(42,42,44,44,42)))
-Srs1 = Polygons(list(Sr1), "s1")
-p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
-+datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
-feature_states(p)
+library(sf)
+sfc = st_sfc(st_point(c(-89, 45)), st_point(c(-109, 42)), crs = 4326)
+sf = st_sf(data.frame(val = c('WI_point', 'WY_point'), geom=sfc))
+feature_states(sf)
 }
