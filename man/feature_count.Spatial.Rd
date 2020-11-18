@@ -4,7 +4,7 @@
 \alias{feature_count.Spatial}
 \title{get the feature count from a spatial object}
 \usage{
-\method{feature_count}{Spatial}(sp)
+\method{feature_count}{Spatial}(obj)
 }
 \arguments{
 \item{sp}{a spatial object from the \code{sp} package}

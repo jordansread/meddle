@@ -21,73 +21,88 @@
 #'    driver = 'ESRI Shapefile', overwrite_layer = TRUE)
 #' }
 #' @export
-feature_bbox <- function(sp){
+feature_bbox <- function(obj){
   UseMethod("feature_bbox")
 }
 
 #' @keywords internal
 #' @export
-feature_bbox.Spatial <- function(sp){
-  if (!grepl(pattern = 'WGS84', proj4string(sp))){
+feature_bbox.Spatial <- function(obj){
+  if (!grepl(pattern = 'WGS84', proj4string(obj))){
     stop('sp must be in WGS84 to calculate a valid bounding box')
   }
-  bounds <- bbox(sp)
+  bounds <- bbox(obj)
   return(list(wbbox=bounds[1,1], ebbox=bounds[1,2],
               nbbox=bounds[2,2], sbbox=bounds[2,1]))
 }
 
 #' @keywords internal
 #' @export
-feature_bbox.sf <- function(sp){
-  feature_bbox(sf::st_geometry(sp))
+feature_bbox.sf <- function(obj){
+  feature_bbox(sf::st_geometry(obj))
 }
 
 #' @importFrom sf st_crs st_bbox
 #' @keywords internal
 #' @export
-feature_bbox.sfc <- function(sp){
-  if (!grepl(pattern = 'WGS84', sf::st_crs(sp)$proj4string)){
+feature_bbox.sfc <- function(obj){
+  if (!grepl(pattern = 'WGS84', sf::st_crs(obj)$proj4string)){
     stop('sp must be in WGS84 to calculate a valid bounding box')
   }
-  bounds <- sf::st_bbox(sp)
+  bounds <- sf::st_bbox(obj)
   return(list(wbbox=bounds[['xmin']], ebbox=bounds[['xmax']],
               nbbox=bounds[['ymax']], sbbox=bounds[['ymin']]))
 }
 
-feature_type <- function(sp){
+feature_type <- function(obj){
   UseMethod("feature_type")
 }
 #' get the FGDC feature type of spatial object
 #'
 #' Extract the FGDC feature type from an \code{sp} object
 #'
-#' @param sp a spatial object from the \code{sp} package 
+#' @param obj a spatial object from the \code{sp} package 
 #' (partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)
 #' @param return a list with \code{feature-ref} and \code{feature-type} fields
 #' @details only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
 #' @keywords internal
 #' @export
-feature_type.SpatialPolygons <- function(sp){
+feature_type.SpatialPolygons <- function(obj){
   list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
 #' @keywords internal
 #' @export
-feature_type.SpatialPoints <- function(sp){
+feature_type.SpatialPoints <- function(obj){
   list('feature-ref'="Point", 'feature-type'="Point")
 }
 #' @keywords internal
 #' @export
-feature_type.sfc_MULTIPOLYGON <- function(sp){
+feature_type.sfc_MULTIPOLYGON <- function(obj){
   list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
 #' @keywords internal
 #' @export
-feature_type.sfc_POLYGON <- function(sp){
+feature_type.sfc_POLYGON <- function(obj){
   list('feature-ref'="Vector", 'feature-type'="G-polygon")
 }
+#' @keywords internal
+#' @export
+feature_type.sfc_POINT <- function(obj){
+  list('feature-ref'="Point", 'feature-type'="Point")
+}
+#' @keywords internal
+#' @export
+feature_type.sfc_MULTIPOINT <- function(obj){
+  list('feature-ref'="Point", 'feature-type'="Point")
+}
+#' @importFrom sf st_geometry
+#' @keywords internal
+#' @export
+feature_type.sf <- function(obj){
+  feature_type(sf::st_geometry(obj))
+}
 
-
-feature_count <- function(sp){
+feature_count <- function(obj){
   UseMethod("feature_count")
 }
 #' get the feature count from a spatial object
@@ -98,18 +113,34 @@ feature_count <- function(sp){
 #' @param return a list with \code{feature-count} field
 #' @keywords internal
 #' @export
-feature_count.Spatial <- function(sp){
-  list('feature-count'=length(sp))
+feature_count.Spatial <- function(obj){
+  list('feature-count'=length(obj))
 }
 #' @keywords internal
 #' @export
-feature_count.sfc_MULTIPOLYGON <- function(sp){
-  list('feature-count'=length(sp))
+feature_count.sfc_MULTIPOLYGON <- function(obj){
+  list('feature-count'=length(obj))
 }
 #' @keywords internal
 #' @export
-feature_count.sfc_POLYGON <- function(sp){
-  list('feature-count'=length(sp))
+feature_count.sfc_POINT <- function(obj){
+  list('feature-count'=length(obj))
+}
+#' @importFrom sf st_cast
+#' @keywords internal
+#' @export
+feature_count.sfc_MULTIPOINT <- function(obj){
+  list('feature-count'=length(st_cast(obj, to = 'POINT')))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_POLYGON <- function(obj){
+  list('feature-count'=length(obj))
+}
+#' @keywords internal
+#' @export
+feature_count.sf <- function(obj){
+  feature_count(sf::st_geometry(obj))
 }
 
 #' get the states that features overlap with
@@ -182,10 +213,13 @@ get_states <- function(){
   us_48$names <- paste0("USA:", us_48$ID)
   us_hi <- sf::st_as_sf(map("world", "USA:Hawaii", fill=TRUE, plot=FALSE))
   us_hi$names <- rep("USA:Hawaii", nrow(us_hi))
+  us_hi$ID <- rep("Hawaii", nrow(us_hi))
   us_ak <- sf::st_as_sf(map("world", "USA:Alaska", fill=TRUE, plot=FALSE))
   us_ak$names <- rep("USA:Alaska", nrow(us_ak))
+  us_ak$ID <- rep("Alaska", nrow(us_ak))
   us_pr <- sf::st_as_sf(map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE))
-  us_pr$names <- rep("Puerto Rico:Puerto Rico", nrow(us_pr))
+  us_pr$names <- rep("USA:Puerto Rico", nrow(us_pr))
+  us_pr$ID <- rep("Puerto Rico", nrow(us_pr))
   sf::st_geometry(us_pr) <- sf::st_geometry(us_pr) - c(360, 0) # units for PR need a latitude shift
   sf::st_crs(us_pr) <- sf::st_crs(4326)
   
@@ -266,6 +300,5 @@ extract_feature.sfc <- function(x, out = c('bbox', 'type', 'count', 'states')){
 #' @keywords internal
 #' @export
 extract_feature.sf <- function(x, out = c('bbox', 'type', 'count', 'states')){
-  x <- sf::st_geometry(x)
-  extract_feature(x, out = out)
+  extract_feature(sf::st_geometry(x), out = out)
 }

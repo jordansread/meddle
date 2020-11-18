@@ -4,10 +4,10 @@
 \alias{feature_type.SpatialPolygons}
 \title{get the FGDC feature type of spatial object}
 \usage{
-\method{feature_type}{SpatialPolygons}(sp)
+\method{feature_type}{SpatialPolygons}(obj)
 }
 \arguments{
-\item{sp}{a spatial object from the \code{sp} package 
+\item{obj}{a spatial object from the \code{sp} package 
 (partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)}
 
 \item{return}{a list with \code{feature-ref} and \code{feature-type} fields}

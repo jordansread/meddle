@@ -4,7 +4,7 @@
 \alias{feature_bbox}
 \title{get the bounding box of the feature(s)}
 \usage{
-feature_bbox(sp)
+feature_bbox(obj)
 }
 \arguments{
 \item{sp}{a spatial object from the \code{sp} package}
