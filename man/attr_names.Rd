@@ -20,6 +20,6 @@ return just the header names (attributes) for delimited files or shapefiles
 attr_names(system.file(package='meddle','extdata','example_shapefile'))
 
 # attribute names from a Spatial object:
-sp <- read_data(system.file(package='meddle','extdata','example_shapefile'))
-attr_names(sp)
+sf <- read_data(system.file(package='meddle','extdata','example_shapefile'))
+attr_names(sf)
 }

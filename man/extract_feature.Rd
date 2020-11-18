@@ -4,12 +4,13 @@
 \alias{extract_feature}
 \title{extract and summarize spatial data}
 \usage{
-extract_feature(x, ...)
+extract_feature(obj, out)
 }
 \arguments{
-\item{x}{an object of class "Spatial" or a filepath that can be read in}
+\item{obj}{a spatial object from the \code{sf} package or \code{sp} package
+or a filepath that can be read in with \code{read_data()}}
 
-\item{\dots}{additional parameters passed to methods.
+\item{out}{desired outputs; must align with valid internal function names
 Including \code{out} a character vector of summary values}
 }
 \value{

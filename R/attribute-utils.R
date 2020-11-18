@@ -88,8 +88,8 @@ read_attr_file <- function(attr.file){
 #' attr_names(system.file(package='meddle','extdata','example_shapefile'))
 #'
 #' # attribute names from a Spatial object:
-#' sp <- read_data(system.file(package='meddle','extdata','example_shapefile'))
-#' attr_names(sp)
+#' sf <- read_data(system.file(package='meddle','extdata','example_shapefile'))
+#' attr_names(sf)
 #' @export
 attr_names <- function(x){
   UseMethod("attr_names")
@@ -145,6 +145,13 @@ attr_names.shapedir <- function(x){
 #' @keywords internal
 attr_names.Spatial <- function(x){
   names(x)
+}
+
+#' @export
+#' @keywords internal
+#' @importFrom sf st_drop_geometry
+attr_names.sf <- function(x){
+  names(sf::st_drop_geometry(x))
 }
 
 #' @export

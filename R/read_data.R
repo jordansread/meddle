@@ -9,29 +9,27 @@ read_data <- function(filename, ...){
   UseMethod("read_data")
 }
 
-#' @param filename a filepath to an existing file
-#' @param \dots ignored
 #' @export
 #' @keywords internal
 read_data.character <- function(filename, ...){
   stopifnot(file.exists(filename))
   class(filename) <- get_filetype(filename)
-  UseMethod("read_data", object = filename)
+  read_data(filename)
 }
 
-#' @importFrom rgdal readOGR
+#' @importFrom sf st_read
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils read.table write.table
 #' @export
 #' @keywords internal
 read_data.shapefile <- function(filename, ...){
-  rgdal::readOGR(dirname(filename[1]), layer = basename(tools::file_path_sans_ext(filename[1])), ...)
+  sf::st_read(dirname(filename[1]), layer = basename(tools::file_path_sans_ext(filename[1])), ...)
 }
 
 #' @export
 #' @keywords internal
 read_data.shapedir <- function(filename, ...){
-  rgdal::readOGR(filename, layer = tools::file_path_sans_ext(dir(filename)[1]), ...)
+  sf::st_read(filename, layer = tools::file_path_sans_ext(dir(filename)[1]), ...)
 }
 
 #' @export
