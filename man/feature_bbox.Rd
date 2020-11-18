@@ -7,7 +7,7 @@
 feature_bbox(obj)
 }
 \arguments{
-\item{sp}{a spatial object from the \code{sp} package}
+\item{obj}{a spatial object from the \code{sp} package}
 }
 \value{
 a list with \code{wbbox}, \code{ebbox}, \code{nbbox}, \code{sbbox} fields

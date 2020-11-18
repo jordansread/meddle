@@ -1,7 +1,7 @@
 Package: meddle
 Title: Metadata generation for data releases
-Version: 0.0.12
-Date: 2020-11-07
+Version: 0.0.13
+Date: 2020-11-18
 Authors@R: c(person("Jordan", "Read", email = "jread@usgs.gov", role = c("aut", "cre")),
   person("Aaron", "Berdanier", email = "aaron.berdanier@duke.edu", role = c("aut")),
   person("Jordan", "Walker", email = "jiwalker@usgs.gov", role = c("aut")),
@@ -19,8 +19,8 @@ Imports:
     yaml,
     whisker,
     sf (>= 0.9.6),
+    sp,
     xml2 (>= 1.0.0),
-    maptools,
     tools,
     utils,
     methods,

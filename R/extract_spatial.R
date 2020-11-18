@@ -2,7 +2,7 @@
 #'
 #' Calculate the bounding box of the feature(s) in  lat/lon, formatted for metadata field entry
 #'
-#' @param sp a spatial object from the \code{sp} package
+#' @param obj a spatial object from the \code{sp} package 
 #' @return a list with \code{wbbox}, \code{ebbox}, \code{nbbox}, \code{sbbox} fields
 #' @importFrom sp bbox proj4string
 #' @examples
@@ -147,7 +147,7 @@ feature_count.sf <- function(obj){
 #'
 #' summarize the spatial extent of data relative to overlap w/ US states
 #'
-#' @param sp an object of class \code{Spatial}
+#' @param obj an object of various spatial classes from the \code{sf} package
 #' @return a list with \code{states} field
 #' @export
 #' @examples
@@ -155,30 +155,26 @@ feature_count.sf <- function(obj){
 #' sfc = st_sfc(st_point(c(-89, 45)), st_point(c(-109, 42)), crs = 4326)
 #' sf = st_sf(data.frame(val = c('WI_point', 'WY_point'), geom=sfc))
 #' feature_states(sf)
-feature_states <- function(sf){
+feature_states <- function(obj){
   UseMethod("feature_states")
 }
-#' @keywords internal
-#' @export
 
-feature_states.Spatial <- function(sf){
+#' @keywords internal
+#' @importFrom sf st_as_sf
+#' @export
+feature_states.Spatial <- function(obj){
   
-  stop('need to convert to sfc')
-  
-  
-  
-  return(list(states = feature.states))
+  feature_states(sf::st_as_sf(obj))
 }
 
 #' @keywords internal
 #' @export
-#' @importFrom sf as_Spatial
 #' @importFrom dataRetrieval stateCdLookup
-feature_states.sfc <- function(sf){
+feature_states.sfc <- function(obj){
   
   states <- get_states()
   
-  state.overlap <- overlaps(sf, states)
+  state.overlap <- overlaps(obj, states)
   
   as.state_name <- function(x){
     s <- strsplit(tolower(x), " ")
@@ -201,12 +197,11 @@ feature_states.sfc <- function(sf){
 #' @keywords internal
 #' @export
 #' @importFrom sf st_geometry
-feature_states.sf <- function(sf){
-  feature_states(st_geometry(sf))
+feature_states.sf <- function(obj){
+  feature_states(st_geometry(obj))
 }
 
 #' @importFrom maps map
-#' @importFrom maptools map2SpatialPolygons
 #' @importFrom sf st_crs st_as_sf
 get_states <- function(){
   us_48 <- sf::st_as_sf(map("state", fill=TRUE, plot=FALSE))
@@ -229,32 +224,32 @@ get_states <- function(){
 }
 
 #' @importFrom sf st_intersects
-overlaps <- function(sf0, sf1){
+overlaps <- function(x, y){
   UseMethod("overlaps")
 }
 
-overlaps.SpatialPoints <- function(sp0, sp1){
-  overlaps <- gContains(sp1, sp0, byid = TRUE)
-  unname(colSums(overlaps) > 0)
+overlaps.SpatialPoints <- function(x, y){
+  overlaps(sf::st_as_sf(x), y)
 }
 
-overlaps.sfc <- function(sf0, sf1){
-  unlist(sf::st_intersects(sf0, sf1))
+overlaps.sfc <- function(x, y){
+  unlist(sf::st_intersects(x, y))
 }
-overlaps.SpatialPolygons <- function(sp0, sp1){
-  unname(!is.na(over(sp1, sp0)))
+#' @importFrom sp over
+overlaps.SpatialPolygons <- function(x, y){
+  unname(!is.na(over(y, x)))
 }
-
-overlaps.SpatialPolygonsDataFrame <- function(sp0, sp1){
-  unname(!is.na(over(sp1, sp0)))[, 1]
+#' @importFrom sp over
+overlaps.SpatialPolygonsDataFrame <- function(x, y){
+  unname(!is.na(over(y, x)))[, 1]
 }
 
 #' extract and summarize spatial data
 #'
 #' create metadata list from sp object
 #'
-#' @param x an object of class "Spatial" or a filepath that can be read in
-#' @param \dots additional parameters passed to methods.
+#' @param obj an object of class "Spatial" or a filepath that can be read in
+#' @param out desired outputs; must align with valid internal function names
 #' Including \code{out} a character vector of summary values
 #' @return a list according to names in spatial lookup tables for tag conversion
 #' @export
@@ -265,33 +260,33 @@ overlaps.SpatialPolygonsDataFrame <- function(sp0, sp1){
 #' p = SpatialPolygons(list(Srs1), proj4string=CRS("+init=epsg:4326 +proj=longlat 
 #' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' extract_feature(p)
-extract_feature <- function(x, ...){
+extract_feature <- function(obj, out){
   UseMethod("extract_feature")
 }
 
 #' @keywords internal
 #' @export
-extract_feature.character <- function(x, ...){
-  stopifnot(file.exists(x))
-  extract_feature(read_data(x), ...)
+extract_feature.character <- function(obj, out){
+  stopifnot(file.exists(obj))
+  extract_feature(read_data(obj), out = out)
 }
 
 #' @keywords internal
 #' @export
-extract_feature.Spatial <- function(x, out = c('bbox', 'type', 'count', 'states')){
+extract_feature.Spatial <- function(obj, out = c('bbox', 'type', 'count', 'states')){
   feature <- list()
   for (fun in out){
-    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=x)))
+    feature <- append(feature, do.call(paste0('feature_', fun), list(obj = obj)))
   }
   return(feature)
 }
 
 #' @keywords internal
 #' @export
-extract_feature.sfc <- function(x, out = c('bbox', 'type', 'count', 'states')){
+extract_feature.sfc <- function(obj, out = c('bbox', 'type', 'count', 'states')){
   feature <- list()
   for (fun in out){
-    feature <- append(feature, do.call(paste0('feature_', fun), list(sp=x)))
+    feature <- append(feature, do.call(paste0('feature_', fun), list(obj = obj)))
   }
   return(feature)
 }
@@ -299,6 +294,6 @@ extract_feature.sfc <- function(x, out = c('bbox', 'type', 'count', 'states')){
 #' @importFrom sf st_geometry
 #' @keywords internal
 #' @export
-extract_feature.sf <- function(x, out = c('bbox', 'type', 'count', 'states')){
-  extract_feature(sf::st_geometry(x), out = out)
+extract_feature.sf <- function(obj, out = c('bbox', 'type', 'count', 'states')){
+  extract_feature(sf::st_geometry(obj), out = out)
 }

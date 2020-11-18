@@ -10,8 +10,8 @@ test_that("attr_names for different classes", {
   expect_equal(attr_names(df), c('dog','cat'))
 
   expect_is(attr_names(system.file(package='meddle','extdata','example_shapefile')), 'character')
-  sp <- read_data(system.file(package='meddle','extdata','example_shapefile'))
-  expect_equal(attr_names(system.file(package='meddle','extdata','example_shapefile')), attr_names(sp))
+  sf <- read_data(system.file(package='meddle','extdata','example_shapefile'))
+  expect_equal(attr_names(system.file(package='meddle','extdata','example_shapefile')), attr_names(sf))
 })
 
 context("creating attribute skeleton doesn't override")

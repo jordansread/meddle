@@ -4,10 +4,10 @@
 \alias{feature_states}
 \title{get the states that features overlap with}
 \usage{
-feature_states(sf)
+feature_states(obj)
 }
 \arguments{
-\item{sp}{an object of class \code{Spatial}}
+\item{obj}{an object of various spatial classes from the \code{sf} package}
 }
 \value{
 a list with \code{states} field
