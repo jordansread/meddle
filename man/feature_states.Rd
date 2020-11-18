@@ -7,13 +7,17 @@
 feature_states(obj)
 }
 \arguments{
-\item{obj}{an object of various spatial classes from the \code{sf} package}
+\item{obj}{a spatial object from the \code{sf} package or \code{sp} package}
 }
 \value{
 a list with \code{states} field
 }
 \description{
 summarize the spatial extent of data relative to overlap w/ US states
+}
+\details{
+not all \code{sf} or \code{sp} spatial classes are supported. 
+If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 }
 \examples{
 library(sf)

@@ -25,6 +25,7 @@ p <- SpatialPolygons(list(Srs1, Srs2), proj4string=CRS("+init=epsg:4326 +proj=lo
 +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 p.df <- SpatialPolygonsDataFrame(Sr = p,
    data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+extract_feature(p.df)
 \dontrun{
 library(rgdal)
 writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile',

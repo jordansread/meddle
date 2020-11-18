@@ -7,8 +7,7 @@
 \method{feature_type}{SpatialPolygons}(obj)
 }
 \arguments{
-\item{obj}{a spatial object from the \code{sp} package 
-(partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)}
+\item{obj}{a spatial object from the \code{sf} package or \code{sp} package}
 
 \item{return}{a list with \code{feature-ref} and \code{feature-type} fields}
 }
@@ -16,6 +15,7 @@
 Extract the FGDC feature type from an \code{sp} object
 }
 \details{
-only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
+not all \code{sf} or \code{sp} spatial classes are supported. 
+If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 }
 \keyword{internal}

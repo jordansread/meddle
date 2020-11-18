@@ -15,6 +15,7 @@
 #' +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"))
 #' p.df <- SpatialPolygonsDataFrame(Sr = p,
 #'    data = data.frame(x=c(0,40), y=c(30,300), z=c(0,0), row.names=c('s1','s2')))
+#' extract_feature(p.df)
 #' \dontrun{
 #' library(rgdal)
 #' writeOGR(p.df, 'inst/extdata/example_shapefile/','example_shapefile',
@@ -29,7 +30,7 @@ feature_bbox <- function(obj){
 #' @export
 feature_bbox.Spatial <- function(obj){
   if (!grepl(pattern = 'WGS84', proj4string(obj))){
-    stop('sp must be in WGS84 to calculate a valid bounding box')
+    stop('obj must be in WGS84 to calculate a valid bounding box')
   }
   bounds <- bbox(obj)
   return(list(wbbox=bounds[1,1], ebbox=bounds[1,2],
@@ -47,7 +48,7 @@ feature_bbox.sf <- function(obj){
 #' @export
 feature_bbox.sfc <- function(obj){
   if (!grepl(pattern = 'WGS84', sf::st_crs(obj)$proj4string)){
-    stop('sp must be in WGS84 to calculate a valid bounding box')
+    stop('obj must be in WGS84 to calculate a valid bounding box')
   }
   bounds <- sf::st_bbox(obj)
   return(list(wbbox=bounds[['xmin']], ebbox=bounds[['xmax']],
@@ -61,10 +62,10 @@ feature_type <- function(obj){
 #'
 #' Extract the FGDC feature type from an \code{sp} object
 #'
-#' @param obj a spatial object from the \code{sp} package 
-#' (partial support exists for \code{sf} package for \code{sfc_MULTIPOLYGON} objects)
+#' @param obj a spatial object from the \code{sf} package or \code{sp} package 
 #' @param return a list with \code{feature-ref} and \code{feature-type} fields
-#' @details only classes SpatialPointsDataFrame and SpatialPolygonsDataFrame classes are currently supported
+#' @details not all \code{sf} or \code{sp} spatial classes are supported. 
+#' If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 #' @keywords internal
 #' @export
 feature_type.SpatialPolygons <- function(obj){
@@ -107,10 +108,12 @@ feature_count <- function(obj){
 }
 #' get the feature count from a spatial object
 #'
-#' Tally the number of features in a \code{sp} object
+#' Tally the number of features in a spatial object
 #'
-#' @param sp a spatial object from the \code{sp} package
+#' @param obj a spatial object from the \code{sf} package or \code{sp} package 
 #' @param return a list with \code{feature-count} field
+#' @details not all \code{sf} or \code{sp} spatial classes are supported. 
+#' If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 #' @keywords internal
 #' @export
 feature_count.Spatial <- function(obj){
@@ -147,8 +150,10 @@ feature_count.sf <- function(obj){
 #'
 #' summarize the spatial extent of data relative to overlap w/ US states
 #'
-#' @param obj an object of various spatial classes from the \code{sf} package
+#' @param obj a spatial object from the \code{sf} package or \code{sp} package 
 #' @return a list with \code{states} field
+#' @details not all \code{sf} or \code{sp} spatial classes are supported. 
+#' If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 #' @export
 #' @examples
 #' library(sf)
@@ -248,7 +253,8 @@ overlaps.SpatialPolygonsDataFrame <- function(x, y){
 #'
 #' create metadata list from sp object
 #'
-#' @param obj an object of class "Spatial" or a filepath that can be read in
+#' @param obj a spatial object from the \code{sf} package or \code{sp} package
+#' or a filepath that can be read in with \code{read_data()}
 #' @param out desired outputs; must align with valid internal function names
 #' Including \code{out} a character vector of summary values
 #' @return a list according to names in spatial lookup tables for tag conversion

@@ -7,11 +7,15 @@
 \method{feature_count}{Spatial}(obj)
 }
 \arguments{
-\item{sp}{a spatial object from the \code{sp} package}
+\item{obj}{a spatial object from the \code{sf} package or \code{sp} package}
 
 \item{return}{a list with \code{feature-count} field}
 }
 \description{
-Tally the number of features in a \code{sp} object
+Tally the number of features in a spatial object
+}
+\details{
+not all \code{sf} or \code{sp} spatial classes are supported. 
+If you run into one that you need, file an issue https://github.com/USGS-R/meddle/issues
 }
 \keyword{internal}

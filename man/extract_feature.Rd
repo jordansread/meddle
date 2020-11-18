@@ -7,7 +7,8 @@
 extract_feature(obj, out)
 }
 \arguments{
-\item{obj}{an object of class "Spatial" or a filepath that can be read in}
+\item{obj}{a spatial object from the \code{sf} package or \code{sp} package
+or a filepath that can be read in with \code{read_data()}}
 
 \item{out}{desired outputs; must align with valid internal function names
 Including \code{out} a character vector of summary values}
