@@ -7,6 +7,9 @@ poly_df <- sf::st_sf(poly_sfc, name = 'poly_1')
 point_sfc <- sf::st_sfc(sf::st_point(c(-89,42)), crs = 4326)
 point_df <-  sf::st_sf(point_sfc, name = 'point_1')
 
+dup_points_sfc <- sf::st_sfc(sf::st_point(c(-89, 45)), sf::st_point(c(-89.2, 45)), sf::st_point(c(-109, 42)), crs = 4326)
+dup_points_df <- sf::st_sf(data.frame(val = c('WI_point', 'WI2_point','WY_point'), geom=dup_points_sfc))
+
 points_sfc <- sf::st_sfc(sf::st_multipoint(matrix(c(-89, -108, -154, 42, 33, 65.58), ncol = 2)), crs = 4326)
 PR_points_sfc <- sf::st_sfc(sf::st_multipoint(matrix(c(-66.562926, -65.483519, -67.897202, 18.3, 18.12, 18.098), ncol = 2)), crs = 4326)
 
@@ -48,11 +51,13 @@ test_that("feature overlap with states are correct", {
   state.poly <- sapply(meddle:::feature_states(poly_df)[['states']],function(x) x[['state-name']])
   state.point <- sapply(meddle:::feature_states(point_sfc)[['states']],function(x) x[['state-name']])
   state.points <- sapply(meddle:::feature_states(points_sfc)[['states']],function(x) x[['state-name']])
+  dup_state.points <- sapply(meddle:::feature_states(dup_points_sfc)[['states']],function(x) x[['state-name']])
   state.polys <- sapply(meddle:::feature_states(ilak_catchment)[['states']],function(x) x[['state-name']])
   expect_equal(state.poly, c("Illinois", "Wisconsin"))
   expect_equal(state.point, c("Illinois"))
   expect_equal(state.points, c("Alaska", "Illinois", "New Mexico"))
   expect_equal(state.polys, c("Alaska", "Illinois", "Wisconsin"))
+  expect_equal(dup_state.points, c("Wisconsin", "Wyoming"))
   expect_equal(meddle:::feature_states(PR_points_sfc)$states[[1]][['state-name']], "Puerto Rico")
   
 })
