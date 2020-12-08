@@ -238,7 +238,7 @@ overlaps.SpatialPoints <- function(x, y){
 }
 
 overlaps.sfc <- function(x, y){
-  unlist(sf::st_intersects(x, y))
+  unique(unlist(sf::st_intersects(x, y)))
 }
 #' @importFrom sp over
 overlaps.SpatialPolygons <- function(x, y){
