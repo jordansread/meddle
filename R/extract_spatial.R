@@ -210,7 +210,10 @@ feature_states.sf <- function(obj){
 #' @import spData
 #' @importFrom sf st_crs st_as_sf
 get_states <- function(){
-  us_48 <- dplyr::select(sf::st_transform(spData::us_states, crs = 4326), ID = NAME)
+  us_48 <- sf::st_transform(spData::us_states, crs = 4326)
+  # getting around dplyr::select(ID = NAME) since we don't have that pkg imported
+  us_48$ID <- us_48$NAME
+  us_48 <- us_48[c("ID", "geometry")]
   us_48$names <- paste0("USA:", us_48$ID)
   us_hi <- sf::st_as_sf(map("world", "USA:Hawaii", fill=TRUE, plot=FALSE))
   us_hi <- rename_geometry(us_hi, "geometry")
