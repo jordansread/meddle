@@ -76,6 +76,17 @@ feature_type.SpatialPolygons <- function(obj){
 feature_type.SpatialPoints <- function(obj){
   list('feature-ref'="Point", 'feature-type'="Point")
 }
+
+#' @keywords internal
+#' @export
+feature_type.sfc_LINESTRING <- function(obj){
+  list('feature-ref'="Vector", 'feature-type'="String")
+}
+#' @keywords internal
+#' @export
+feature_type.sfc_MULTILINESTRING <- function(obj){
+  list('feature-ref'="Vector", 'feature-type'="String")
+}
 #' @keywords internal
 #' @export
 feature_type.sfc_MULTIPOLYGON <- function(obj){
@@ -129,6 +140,7 @@ feature_count.sfc_MULTIPOLYGON <- function(obj){
 feature_count.sfc_POINT <- function(obj){
   list('feature-count'=length(obj))
 }
+
 #' @importFrom sf st_cast
 #' @keywords internal
 #' @export
@@ -139,6 +151,16 @@ feature_count.sfc_MULTIPOINT <- function(obj){
 #' @export
 feature_count.sfc_POLYGON <- function(obj){
   list('feature-count'=length(obj))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_LINESTRING <- function(obj){
+  list('feature-count'=length(obj))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_MULTILINESTRING <- function(obj){
+  list('feature-count'=length(st_cast(obj, to = 'LINESTRING')))
 }
 #' @keywords internal
 #' @export
