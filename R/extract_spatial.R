@@ -207,26 +207,41 @@ feature_states.sf <- function(obj){
 }
 
 #' @importFrom maps map
+#' @import spData
 #' @importFrom sf st_crs st_as_sf
 get_states <- function(){
-  us_48 <- sf::st_as_sf(map("state", fill=TRUE, plot=FALSE))
+  us_48 <- dplyr::select(sf::st_transform(spData::us_states, crs = 4326), ID = NAME)
   us_48$names <- paste0("USA:", us_48$ID)
   us_hi <- sf::st_as_sf(map("world", "USA:Hawaii", fill=TRUE, plot=FALSE))
+  us_hi <- rename_geometry(us_hi, "geometry")
   us_hi$names <- rep("USA:Hawaii", nrow(us_hi))
   us_hi$ID <- rep("Hawaii", nrow(us_hi))
   us_ak <- sf::st_as_sf(map("world", "USA:Alaska", fill=TRUE, plot=FALSE))
+  us_ak <- rename_geometry(us_ak, "geometry")
   us_ak$names <- rep("USA:Alaska", nrow(us_ak))
   us_ak$ID <- rep("Alaska", nrow(us_ak))
   us_pr <- sf::st_as_sf(map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE))
+  us_pr <- rename_geometry(us_pr, "geometry")
   us_pr$names <- rep("USA:Puerto Rico", nrow(us_pr))
   us_pr$ID <- rep("Puerto Rico", nrow(us_pr))
   sf::st_geometry(us_pr) <- sf::st_geometry(us_pr) - c(360, 0) # units for PR need a latitude shift
   sf::st_crs(us_pr) <- sf::st_crs(4326)
   
   usa <- rbind(rbind(rbind(us_48, us_ak), us_hi), us_pr)
-
   return(usa)
 }
+
+#' a fix for geom names that are different in `sf` objects
+#' from https://gis.stackexchange.com/questions/386584/sf-geometry-column-naming-differences-r
+#' @keywords internal
+#' @importFrom sf st_geometry<-
+rename_geometry <- function(obj, name){
+  current = attr(obj, "sf_column")
+  names(obj)[names(obj)==current] <- name
+  st_geometry(obj) <- name
+  return(obj)
+}
+
 
 #' @importFrom sf st_intersects
 overlaps <- function(x, y){
