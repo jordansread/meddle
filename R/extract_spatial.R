@@ -76,6 +76,17 @@ feature_type.SpatialPolygons <- function(obj){
 feature_type.SpatialPoints <- function(obj){
   list('feature-ref'="Point", 'feature-type'="Point")
 }
+
+#' @keywords internal
+#' @export
+feature_type.sfc_LINESTRING <- function(obj){
+  list('feature-ref'="Vector", 'feature-type'="String")
+}
+#' @keywords internal
+#' @export
+feature_type.sfc_MULTILINESTRING <- function(obj){
+  list('feature-ref'="Vector", 'feature-type'="String")
+}
 #' @keywords internal
 #' @export
 feature_type.sfc_MULTIPOLYGON <- function(obj){
@@ -129,6 +140,7 @@ feature_count.sfc_MULTIPOLYGON <- function(obj){
 feature_count.sfc_POINT <- function(obj){
   list('feature-count'=length(obj))
 }
+
 #' @importFrom sf st_cast
 #' @keywords internal
 #' @export
@@ -139,6 +151,16 @@ feature_count.sfc_MULTIPOINT <- function(obj){
 #' @export
 feature_count.sfc_POLYGON <- function(obj){
   list('feature-count'=length(obj))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_LINESTRING <- function(obj){
+  list('feature-count'=length(obj))
+}
+#' @keywords internal
+#' @export
+feature_count.sfc_MULTILINESTRING <- function(obj){
+  list('feature-count'=length(st_cast(obj, to = 'LINESTRING')))
 }
 #' @keywords internal
 #' @export
@@ -207,26 +229,44 @@ feature_states.sf <- function(obj){
 }
 
 #' @importFrom maps map
+#' @import spData
 #' @importFrom sf st_crs st_as_sf
 get_states <- function(){
-  us_48 <- sf::st_as_sf(map("state", fill=TRUE, plot=FALSE))
+  us_48 <- sf::st_transform(spData::us_states, crs = 4326)
+  # getting around dplyr::select(ID = NAME) since we don't have that pkg imported
+  us_48$ID <- us_48$NAME
+  us_48 <- us_48[c("ID", "geometry")]
   us_48$names <- paste0("USA:", us_48$ID)
   us_hi <- sf::st_as_sf(map("world", "USA:Hawaii", fill=TRUE, plot=FALSE))
+  us_hi <- rename_geometry(us_hi, "geometry")
   us_hi$names <- rep("USA:Hawaii", nrow(us_hi))
   us_hi$ID <- rep("Hawaii", nrow(us_hi))
   us_ak <- sf::st_as_sf(map("world", "USA:Alaska", fill=TRUE, plot=FALSE))
+  us_ak <- rename_geometry(us_ak, "geometry")
   us_ak$names <- rep("USA:Alaska", nrow(us_ak))
   us_ak$ID <- rep("Alaska", nrow(us_ak))
   us_pr <- sf::st_as_sf(map("world2Hires", "Puerto Rico", fill=TRUE, plot=FALSE))
+  us_pr <- rename_geometry(us_pr, "geometry")
   us_pr$names <- rep("USA:Puerto Rico", nrow(us_pr))
   us_pr$ID <- rep("Puerto Rico", nrow(us_pr))
   sf::st_geometry(us_pr) <- sf::st_geometry(us_pr) - c(360, 0) # units for PR need a latitude shift
   sf::st_crs(us_pr) <- sf::st_crs(4326)
   
   usa <- rbind(rbind(rbind(us_48, us_ak), us_hi), us_pr)
-
   return(usa)
 }
+
+#' a fix for geom names that are different in `sf` objects
+#' from https://gis.stackexchange.com/questions/386584/sf-geometry-column-naming-differences-r
+#' @keywords internal
+#' @importFrom sf st_geometry<-
+rename_geometry <- function(obj, name){
+  current = attr(obj, "sf_column")
+  names(obj)[names(obj)==current] <- name
+  st_geometry(obj) <- name
+  return(obj)
+}
+
 
 #' @importFrom sf st_intersects
 overlaps <- function(x, y){

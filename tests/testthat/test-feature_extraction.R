@@ -17,6 +17,7 @@ ak_poly <- sf::st_polygon(list(matrix(c(-148.90062769206,-148.920356797163,-148.
                                           60.3686995983039,60.3673520719981,60.3659310258993,60.3827950517552,60.4178583481427,60.3686995983039), ncol = 2)))
 ilak_catchment <- sf::st_sf(sf::st_sfc(ak_poly,poly, crs = 4326))
 
+drb_streams <- sf::st_read(system.file(package='meddle','extdata','DRB_streams.json'))
 
 
 test_that("feature types are correct", {
@@ -25,6 +26,7 @@ test_that("feature types are correct", {
   expect_equal(meddle:::feature_type(point_sfc)[['feature-type']], "Point")
   expect_equal(meddle:::feature_type(points_sfc)[['feature-type']], "Point")
   expect_equal(meddle:::feature_type(point_df)[['feature-type']], "Point")
+  expect_equal(meddle:::feature_type(drb_streams)[['feature-type']], "String")
 })
 
 
@@ -45,6 +47,7 @@ test_that("feature counts are correct", {
   expect_equal(meddle:::feature_count(poly_df)[['feature-count']], 1)
   expect_equal(meddle:::feature_count(point_df)[['feature-count']], 1)
   expect_equal(meddle:::feature_count(points_sfc)[['feature-count']], 3)
+  expect_equal(meddle:::feature_count(drb_streams)[['feature-count']], 4)
 })
 
 test_that("feature overlap with states are correct", {
@@ -53,11 +56,13 @@ test_that("feature overlap with states are correct", {
   state.points <- sapply(meddle:::feature_states(points_sfc)[['states']],function(x) x[['state-name']])
   dup_state.points <- sapply(meddle:::feature_states(dup_points_sfc)[['states']],function(x) x[['state-name']])
   state.polys <- sapply(meddle:::feature_states(ilak_catchment)[['states']],function(x) x[['state-name']])
+  state.streams <- sapply(meddle:::feature_states(drb_streams)[['states']],function(x) x[['state-name']])
   expect_equal(state.poly, c("Illinois", "Wisconsin"))
   expect_equal(state.point, c("Illinois"))
   expect_equal(state.points, c("Alaska", "Illinois", "New Mexico"))
   expect_equal(state.polys, c("Alaska", "Illinois", "Wisconsin"))
   expect_equal(dup_state.points, c("Wisconsin", "Wyoming"))
+  expect_equal(state.streams, c("New Jersey", "New York", "Pennsylvania"))
   expect_equal(meddle:::feature_states(PR_points_sfc)$states[[1]][['state-name']], "Puerto Rico")
   
 })
