@@ -18,15 +18,15 @@
     <citeinfo>
       {{#authors}}
       <origin>{{.}}</origin>
-      {{/authors}} 
+      {{/authors}}
       <pubdate>{{pubdate}}</pubdate>
       <title>{{title}}</title>
       {{#form}}
       <geoform>{{.}}</geoform>
-      {{/form}} 
+      {{/form}}
       {{#link}}
       <onlink>{{.}}</onlink>
-      {{/link}} 
+      {{/link}}
     </citeinfo>
   </lworkcit>
 {{/larger-cites}}
@@ -113,12 +113,15 @@
     <citeinfo>
       {{#authors}}
       <origin>{{.}}</origin>
-      {{/authors}} 
+      {{/authors}}
       <pubdate>{{pubdate}}</pubdate>
       <title>{{title}}</title>
+      {{#form}}
+      <geoform>{{.}}</geoform>
+      {{/form}}
       {{#link}}
       <onlink>{{.}}</onlink>
-      {{/link}} 
+      {{/link}}
     </citeinfo>
   </crossref>
 {{/cross-cites}}
