@@ -37,4 +37,4 @@ LazyData: true
 SystemRequirements: 
     PROJ (>= 7.0.0),
     GDAL (>= 3.0.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1

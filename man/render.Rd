@@ -28,11 +28,11 @@ create metadata file from input data or yaml file
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{character}: render text to a file from a yaml file
+\item \code{render(character)}: render text to a file from a yaml file
 
-\item \code{list}: render text to a file from a list
+\item \code{render(list)}: render text to a file from a list
+
 }}
-
 \examples{
 render(list('dogname'='fred','catname'='midred'),
    filename=NULL, list('dogname'='betty'), template="my dog's name is: {{dogname}}")
